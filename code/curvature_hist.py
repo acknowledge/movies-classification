@@ -3,24 +3,21 @@ def curvature_hist(img, step=10, plot=False):
     gs = gridspec.GridSpec(2,2)
     cvt = curvature(img, step, plot, gs)
     
-    if plot:
-        pl.subplot(gs[1, :])
-        pl.hist(cvt)
-        pl.title("histogram of curvatures")
-        
-    min = cvt.min()
-    max = cvt.max()
+    min = 0
+    max = 0.4
     qty = cvt.size
     bin_size = (max-min)/n
     
-    bins = [0] * n
+    #binsPos = np.arange(0, 0.41, 0.04)
+    binsPos = np.linspace(min, max, 11)
+    binsVal, binsPos = np.histogram(cvt, binsPos)
+    binsVal = binsVal / float(len(cvt))
+        
+    if plot:
+        pl.subplot(gs[1, :])
 
-    for i in range(0,n):
-        for e in cvt:
-            if e >= min+(i*bin_size):
-                if e < min+((i+1)*bin_size):
-                    bins[i] = bins[i]+1
-    for i in range(0,n):
-        bins[i] = bins[i]*1.0/qty
+        pl.bar(binsPos[:-1], binsVal, 0.02)
+        pl.xlim((min, max))
+        pl.title("histogram of curvatures")
 
-    return bins
+    return np.array(binsVal)
