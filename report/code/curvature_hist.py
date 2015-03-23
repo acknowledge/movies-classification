@@ -15,7 +15,6 @@ def curvature_hist(img, step=10, plot=False):
         
     if plot:
         pl.subplot(gs[1, :])
-
         pl.bar(binsPos[:-1], binsVal, 0.02)
         pl.xlim((min, max))
         pl.title("histogram of curvatures")
