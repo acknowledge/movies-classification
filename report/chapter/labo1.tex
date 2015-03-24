@@ -1,5 +1,5 @@
-\chapter{Features extraction}
-\section{Curvature}
+\chapter{Extraction de caractéristiques}
+\section{Courbure}
 
 Dans ce premier exercice, nous devons implémenter la fonction \texttt{curvature\_hist()} qui prend en paramètre une image et qui retourne un tableau d'histogramme des courbures de l'image. Ces valeurs sont normalisées et sont donc dans l'intervalle [0;1]. Le paramètre \texttt{plot} permet de produire ou non un histogramme.
 
@@ -24,6 +24,24 @@ Si nous appelons donc notre fonction \texttt{curvature\_hist()} avec deux images
   \caption{Histogrammes des courbures des images des feuilles 1 et 13}
   \label{curvaturehist}
 \end{figure}
+
+
+\section{Nouvelle caractéristique}
+
+Dans l'exercice suivant, il est question d'extraire une nouvelle caractéristique pour l'ajouter au tableau de l'histogramme créé précédemment. Pour cela nous avons choisi d'extraire l'enveloppe convexe de la feuille et de la comparer avec le contour. La caractéristique est le coutour divisé par l'enveloppe convexe. Cette caractéristique est intéressante car plus la feuille est lisse et convexe, plus la caractéristique sera proche de 1 et plus il y a de renflements, plus la valeur va diminuer. Voici le code de la fonction qui va extraire cette caractéristique : 
+
+\lstinputlisting{code/hull_ratio.py}
+
+
+\section{KNN}
+
+Il faut à présent utiliser les caractéristiques pour entraîner et évaluer un classifieur KNN. Pour ce faire, nous devons d'abord charger toutes les images et leur extraire les caractéristiques qu'on met dans un tableau. Il faut également créer un vecteur qui contient les classes de chaque image pour pouvoir entraîner notre classifieur. Ensuite nous séparons nos données en données d'entraînement et de test. A la fin, nous entraînons le classifieur. Voici le code qui permet toutes ces étapes : 
+
+\lstinputlisting{code/knn.py}
+
+
+
+Dans ce code, nous avons défini que 40\% des données allaient servir de données de test. Et nous avons instancié le classifieur KNN à K = 3. Nous pouvons changer la valeur de K pour voir si nous obtenons de meilleurs résultats.
 
 
 % Code integration example
