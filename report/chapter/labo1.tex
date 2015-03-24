@@ -35,11 +35,11 @@ Dans l'exercice suivant, il est question d'extraire une nouvelle caractéristiqu
 
 \section{KNN}
 
-Il faut à présent utiliser les caractéristiques pour entraîner et évaluer un classifieur KNN. Pour ce faire, nous devons d'abord charger toutes les images et leur extraire les caractéristiques qu'on met dans un tableau. Il faut également créer un vecteur qui contient les classes de chaque image pour pouvoir entraîner notre classifieur. Ensuite nous séparons nos données en données d'entraînement et de test. A la fin, nous entraînons le classifieur. Voici le code qui permet toutes ces étapes : 
+Il faut à présent utiliser les caractéristiques pour entraîner et évaluer un classificateur KNN. Pour ce faire, nous devons d'abord charger toutes les images et leur extraire les caractéristiques qu'on met dans un tableau. Il faut également créer un vecteur qui contient les classes de chaque image pour pouvoir entraîner notre classificateur. Ensuite nous séparons nos données en données d'entraînement et de test. A la fin, nous entraînons le classificateur. Voici le code qui permet toutes ces étapes : 
 
 \lstinputlisting{code/knn.py}
 
-Dans ce code, nous avons défini que 40\% des données allaient servir de données de test. Et nous avons instancié le classifieur KNN à K = 3. Nous pouvons changer la valeur de K pour voir si nous obtenons de meilleurs résultats. Nous avons testé avec les 1, 2, 3, 5 et 10 plus proches voisins et avons trouvé les valeurs qui se trouvent dans la table \ref{valuestabforKNN}.
+Dans ce code, nous avons défini que 40\% des données allaient servir de données de test. Et nous avons instancié le classificateur KNN à K = 3. Nous pouvons changer la valeur de K pour voir si nous obtenons de meilleurs résultats. Nous avons testé avec les 1, 2, 3, 5 et 10 plus proches voisins et avons trouvé les valeurs qui se trouvent dans la table \ref{valuestabforKNN}.
 
 \begin{table}[h]
   \centering
@@ -93,7 +93,41 @@ La ligne grise montre que la version 5NN est la meilleure dans les trois catégo
   \caption{Rapport de classification pour 5NN}
 \end{table}
 
-\newpage
+Pour information, voici les formules permettant de trouver les trois valeurs \texttt{precision}, \texttt{recall} et \texttt{f1-score} :
+
+\[ precision = \frac{\sum TruePositive}{\sum TestOutcomePositive} \]
+
+\[ recall = sensitivity = \frac{\sum TruePositive}{\sum ConditionPositive} \]
+
+\[ f1-score = 2 \cdot \frac{precision \cdot recall}{precision + recall} \]
+
+\newpage 
+
+Nous essayons ensuite de ne pas tenir compte de la caractéristique \texttt{hull\_ratio} pour voir la différence dans les résultats. Nous relançons donc la simulation toujours en considérant les 5 plus proches voisins. La figure \ref{5nnwithouthull} montre la matrice de confusion résultante. Et la table \ref{5nncrwithouthull} montre les valeurs du rapport de classification.
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=0.6\linewidth]{img/5NNwithoutHull.png}
+  \caption{Matrice de confusion pour 5NN sans la caractéristique \texttt{hull\_ratio}}
+  \label{5nnwithouthull}
+\end{figure}
+
+\begin{table}[h]
+  \centering
+  \footnotesize
+  \begin{tabular}{|c|c|c|}  
+    \hline
+    precision & recall & f1-score \\
+    \hline
+    0.74 & 0.75 &0.73 \\
+    \hline
+  \end{tabular}
+  \label{5nncrwithouthull}
+  \caption{Rapport de classification pour 5NN sans la caractéristique \texttt{hull\_ratio}}
+\end{table}
+
+Nous passons d'un t1-score de 86\% à 73\%. Nous pouvons donc affirmer que le choix de la caractéristique \texttt{ratio\_hull} était très bon et permet d'augmenter significativement la précision du classificateur.
+
 
 
 % Code integration example
@@ -108,4 +142,17 @@ La ligne grise montre que la version 5NN est la meilleure dans les trois catégo
 %    \includegraphics[width=1\linewidth]{img/drupalFirstPage.png}
 %  \caption{Page d'accueil du site créé avec Drupal sur une instance EC2}
 %  \label{drupalfirstpage}
+%\end{figure}
+
+% Image side-by-side
+%\begin{figure}[h!]
+%    \centering
+%    \begin{tabular}{cccc}
+%      \includegraphics[width=.14\linewidth]{randomTree_n5.png} &
+%      \includegraphics[width=.22\linewidth]{randomTree_n10.png} &
+%      \includegraphics[width=.22\linewidth]{randomTree_n15.png} \\
+%      (a) & (b) & (c)\\
+%    \end{tabular}
+%    \caption{Arbres aléatoires où (a) n=5 (b) n=10 (c) n=15
+%    \label{randomTrees}}
 %\end{figure}
