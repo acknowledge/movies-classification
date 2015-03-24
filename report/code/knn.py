@@ -31,15 +31,8 @@ target = target.reshape(-1,1) # transform to colummn vector
 # split datas to train and test
 X_train, X_test, y_train, y_test = cross_validation.train_test_split(data, target, test_size=0.4, random_state=0)
 
-#print 'data : ', data.shape
-#print 'train : ', X_train.shape, y_train.shape
-#print 'target : ', target.shape
-#print 'test : ', X_test.shape, y_test.shape
-
 # normalizing the datas
 #  --> useless in our case (all values are already between 0 and 1)
-#min_max_scaler = preprocessing.MinMaxScaler()
-#X_train_minmax = min_max_scaler.fit_transform(X_train)
 
 # building the classifier and train the dataset 
 knn = KNeighborsClassifier(n_neighbors=3)

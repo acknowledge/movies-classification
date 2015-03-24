@@ -39,9 +39,61 @@ Il faut à présent utiliser les caractéristiques pour entraîner et évaluer u
 
 \lstinputlisting{code/knn.py}
 
+Dans ce code, nous avons défini que 40\% des données allaient servir de données de test. Et nous avons instancié le classifieur KNN à K = 3. Nous pouvons changer la valeur de K pour voir si nous obtenons de meilleurs résultats. Nous avons testé avec les 1, 2, 3, 5 et 10 plus proches voisins et avons trouvé les valeurs qui se trouvent dans la table \ref{valuestabforKNN}.
 
+\begin{table}[h]
+  \centering
+  \footnotesize
+  \begin{tabular}{|c|c|c|c|}  
+    \hline
+    K & precision & recall & f1-score \\
+    \hline
+    1 & 0.86 & 0.86 & 0.86 \\
+    2 & 0.84 & 0.84 & 0.83 \\
+    3 & 0.87 & 0.87 & 0.86 \\
+    \rowcolor{very-light-gray}
+    5 & 0.88 & 0.87 & 0.86 \\
+    10 & 0.82 & 0.86 & 0.84 \\
+    \hline
+  \end{tabular}
+  \label{valuestabforKNN}
+  \caption{Résultats pour différentes valeurs de K}
+\end{table}
 
-Dans ce code, nous avons défini que 40\% des données allaient servir de données de test. Et nous avons instancié le classifieur KNN à K = 3. Nous pouvons changer la valeur de K pour voir si nous obtenons de meilleurs résultats.
+La ligne grise montre que la version 5NN est la meilleure dans les trois catégories \texttt{precision}, \texttt{recall (sensibility)} et \texttt{f1-score}. Voici donc les résultats complets que l'on a trouvé avec 5NN. La figure \ref{5nnconfusionmatrix} montre la matrice de confusion et la table \ref{5nnclassificationreport} montre le rapport de classification complet.
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=0.6\linewidth]{img/5NN.png}
+  \caption{Matrice de confusion pour 5NN}
+  \label{5nnconfusionmatrix}
+\end{figure}
+
+\begin{table}[h]
+  \centering
+  \footnotesize
+  \begin{tabular}{|r|r|r|r|r|}  
+    \hline
+    type & precision & recall & f1-score & support\\
+    \hline
+    acer campestre & 0.83 & 0.87 & 0.85 & 23\\
+    ailanthus altissima & 0.91 & 1.00 & 0.95 & 29\\
+    alnus glutinosa & 0.80 & 0.67 & 0.73 & 12\\
+    arbutus unedo & 0.78 & 0.88 & 0.82 & 32\\
+    castanea sativa & 0.77 & 0.77 & 0.77 & 22\\
+    liquidambar styraciflua & 1.00 & 0.17 & 0.29 & 12\\
+    nerium oleander & 0.98 & 0.96 & 0.97 & 48\\
+    quercus pubescens & 0.94 & 0.94 & 0.94 & 31\\
+    vitex agnus-castus & 0.83 & 1.00 & 0.91 & 25\\
+    \hline
+    avg / total & 0.88 & 0.87 & 0.86 & 234\\
+    \hline
+  \end{tabular}
+  \label{5nnclassificationreport}
+  \caption{Rapport de classification pour 5NN}
+\end{table}
+
+\newpage
 
 
 % Code integration example
