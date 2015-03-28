@@ -1,26 +1,27 @@
 \section{Multilayer perceptron}
 
 
-Dans cet  exercice, nous devons implémenter un réseau des neurones. Pour faire cela, on doit indiquer le nombre d'entrées des features, le nombre des neurones présents dans la couche caché et le nombre des sorties. Ensuite, il a fallu mettre en place le backpropagatoin trainer \texttt{BackProrpTraing} qui s'occupe d'entrainer notre réseau de neurones avec le dataset de trainining et deux paramètres: \texttt{momentum} et le \texttt{learning rate}. Pour commencer l'entrainement du réseau de neurones, on appelle ensuite \texttt{trainer.train()} qui exécute une \texttt{époque} d'entrainement sur le réseau de neurones. Voici donc le code de cet exercice :
+Dans cet exercice, nous devons implÃ©menter un rÃ©seau de neurones. Pour faire cela, on doit indiquer le nombre d'entrÃ©es des features, le nombre de neurones prÃ©sents dans la couche cachÃ©e et le nombre des sorties. Ensuite, il a fallu mettre en place le backpropagatoin trainer \texttt{BackPropTraing} qui s'occupe d'entraÃ®ner notre rÃ©seau de neurones avec le dataset de training et deux paramÃ¨tres : le \texttt{momentum} et le \texttt{learning rate}. Pour commencer l'entraÃ®nement du rÃ©seau de neurones, on appelle ensuite \texttt{trainer.train()} qui exÃ©cute une \texttt{epoch} d'entrainement sur le rÃ©seau de neurones. Voici donc le code de cet exercice :
+
 \lstinputlisting{code/FNN.py}
 \newpage
 
 
-Avec l'entrainement par défaut on a en résultat une \texttt{précision de 0.55} un \texttt{recall de 0.67} et un  \texttt{f-score de 0.60}.
-La matrice de confusion de la figure \ref{mat001} nous montre aussi que les classes ne sont pas bien reconnues par le classificateur:
+Avec l'entraÃ®nement par dÃ©faut on comme rÃ©sultat une \texttt{prÃ©cision de 0.55}, un \texttt{recall de 0.67} et un \texttt{f-score de 0.60}. La matrice de confusion de la figure \ref{mat001} nous montre aussi que les classes ne sont pas bien reconnues par le classificateur.
+
 \begin{figure}[h]
   \centering
     \includegraphics[width=0.6\linewidth]{img/mconf_001.png}
-  \caption{Matrice de confusion avec learning rate 0.001 et 50 itérations}
+  \caption{Matrice de confusion avec learning rate 0.001 et 50 itÃ©rations}
   \label{mat001}
 \end{figure}
 \newpage
 
 
-On a dû donc tuner ces paramètres pour améliorer les résultats. On a commencé par modifier le training rate a \texttt{trainintrate=0.2} pour chercher d'améliorer plus rapidement l'erreur générée par le'entrainement et arriver a de meilleurs résultats. 
+On a donc dÃ» tuner ces paramÃ¨tres pour amÃ©liorer les rÃ©sultats. On a commencÃ© par modifier le training rate a \texttt{trainintrate=0.2} pour chercher Ã  amÃ©liorer plus rapidement l'erreur gÃ©nÃ©rÃ©e par l'entraÃ®nement et arriver a de meilleurs rÃ©sultats. 
 
 
-Par contre, comme on pou voire du graphique de la figure \ref{graph1} l'erreur d'entrainement est assez instable, cela n'est pas optimale pour trouver une bonne convergence. 
+Par contre, comme on peut voir sur le graphique de la figure \ref{graph1}, l'erreur d'entraÃ®nement est assez instable, cela n'est pas optimal pour trouver une bonne convergence. 
 \begin{figure}[h]
   \centering
     \includegraphics[width=0.6\linewidth]{img/graph3.png}
@@ -30,17 +31,17 @@ Par contre, comme on pou voire du graphique de la figure \ref{graph1} l'erreur d
 \newpage
 
 
-Nous avons donc essayé plusieurs paramètres et en final on a trouvé certains qui parait le meilleurs. 
-En final on a exécuté \texttt{150 itérations} avec un \texttt{momentum=0.1} et le \texttt{learningrate=0.03}.On a eu en résultat une \texttt{precision de 0.82} un \texttt{recall de 0.86} et un  \texttt{f-score de 0.84} que sont assez similaire au résultat du KNN.
-Le graphique représenté par la figure \ref{graph003} nous montre que l'entrainement est plus stable qu? avant et qu? on arrive a la convergence. On pourra en effet même diminuer le nombre d'itérations.
+Nous avons donc essayÃ© plusieurs paramÃ¨tres et avons trouvÃ© certains qui paraÃ®ssent les meilleurs. Au final on a exÃ©cutÃ© \texttt{150 itÃ©rations} avec un \texttt{momentum=0.1} et un \texttt{learningrate=0.03}. On a eu comme rÃ©sultat une \texttt{precision de 0.82}, un \texttt{recall de 0.86} et un  \texttt{f-score de 0.84} que sont assez similaire aux rÃ©sultats du KNN. Le graphique reprÃ©sentÃ© par la figure \ref{graph003} nous montre que l'entraÃ®nement est plus stable qu' avant et qu' on arrive Ã  la convergence. On pourrait en effet mÃªme diminuer le nombre d'itÃ©rations.
+
 \begin{figure}[h]
   \centering
     \includegraphics[width=0.6\linewidth]{img/graph003.png}
-  \caption{Erreur d'entrainement et de test avec \texttt{training\_rate=0.003}}
+  \caption{Erreur d'entraÃ®nement et de test avec \texttt{training\_rate=0.003}}
   \label{graph003}
 \end{figure}
 \newpage
-En final la matrice de la figure \ref{maconf003} nous montre que les classes sont beaucoup mieux classées qu? avant et que mis à part la la classe \texttt{liquidambar styraciflue}, sont suffisamment bien reconnu par le classificateur.
+
+Au final la matrice de la figure \ref{mconf003} nous montre que les classes sont beaucoup mieux classÃ©es qu'avant et que, mis Ã  part la classe \texttt{liquidambar styraciflue}, elles sont suffisamment bien reconnues par le classificateur.
 
 \begin{figure}[h]
   \centering
