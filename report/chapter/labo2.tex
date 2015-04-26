@@ -1,47 +1,50 @@
 \newpage
-\section{Évaluation du modèle}
+\section*{Évaluation du modèle}
 
-Dans cette partie nous avons testé l'algorithme avec les meilleurs paramètres trouvés auparavant et nous l'avons testé avec trois combination de poids pour la fonction de fitness (table \ref{table_param}):
+Dans cette partie nous avons testé l'algorithme avec les meilleurs paramètres trouvés auparavant et nous l'avons testé avec trois combinaisons de poids pour la fonction de fitness (table \ref{table_param}) :
 
 
 \begin{table}[h]
-\begin{tabular}{|l|l|l|l|}
-\hline
-\textbf{Criterion weigth} & \textbf{Exp1} & \textbf{Exp2} & \textbf{Exp3} \\ \hline
-accuracy                 & 1             & 1             & 1             \\ \hline
-Sensivity                & 0             & 1             & 1             \\ \hline
-Specificity              & 0             & 0             & 1             \\ \hline
-RMSE                     & 0             & 0             & 0.4           \\ \hline
-Size                     & 0.1           & 0.1           & 0.1           \\ \hline
-Fitness max              & 0.732         & 0.81          & 0.748         \\ \hline
-Average                  & 0.579         & 0.65          & 0.58          \\ \hline
-accuracy                 & 0.734         & 0.725         & 0.75          \\ \hline
-Sensivity                & 0.657         & 0.908         & 0.676         \\ \hline
-Specificity              & 0.8           & 0.571         & 0.820         \\ \hline
-\end{tabular}
-\label{table_param}
-\end{table}\\
-\\
-On peut voir du tableau ci-dessous que le la valeur maximale du "fitness" est parvenu dans l'expérience 2 ou on donne un poids assez grand a le \textbf{taux d'erreur (accuracy) et la sensivité} et un poids plus petit à la spécificité.
-\\\\
-En plus que la valeur de Fitness, on peut voir aussi les règles générées par le système.
-Les règles du système de l'expérience 2 sont les suivantes:
-\begin{enumerate}
-\item  IF V5 is MF 1 AND V4 is MF 0 THEN Out is MF 1
-\item  IF V5 is MF 1 AND V4 is MF 0 THEN Out is MF 1
-\item  IF V15 is MF 1 AND V13 is MF 1 THEN Out is MF 1
-\item  IF V9 is MF 1 AND V2 is MF 0 AND V4 is MF 0 AND V8 is MF 1 THEN Out is MF 1
-\item IF V9 is MF 1 AND V2 is MF 0 AND V4 is MF 0 AND V8 is MF 1 THEN Out is MF 1
-\item IF V8 is MF 0 AND V9 is MF 1 THEN Out is MF 0
-\item IF V8 is MF 0 AND V9 is MF 1 THEN Out is MF 0
-\item IF V10 is MF 1 AND V11 is MF 0 AND V15 is MF 0 AND V13 is MF 1 THEN Out is MF 1 ELSE : Out is 1  
-\end{enumerate}\\
-\\
-Chaque variable VX correspond à une caractéristique utilisée pour générer le modèle. Ces caractéristiques sont expliquées sur la page \textbf{\url{http://archive.ics.uci.edu/ml/datasets/Arrhythmia}}.
-Si on prend par exemple la règle 1 on peut la décrire dans la façon suivante: si V5 (QRS) est "grand"  et v4 (Weight) est petit alors le patient à bonne chance d'avoir troubles du rythme cardiaque (sortie MF 1).
+  \centering
+  \begin{tabular}{|l|l|l|l|}
+  \hline
+  \textbf{Criterion weight} & \textbf{Exp1} & \textbf{Exp2} & \textbf{Exp3} \\ \hline
+  accuracy                 & 1             & 1             & 1             \\ \hline
+  Sensivity                & 0             & 1             & 1             \\ \hline
+  Specificity              & 0             & 0             & 1             \\ \hline
+  RMSE                     & 0             & 0             & 0.4           \\ \hline
+  Size                     & 0.1           & 0.1           & 0.1           \\ \hline
+  Fitness max              & 0.732         & 0.81          & 0.748         \\ \hline
+  Average                  & 0.579         & 0.65          & 0.58          \\ \hline
+  accuracy                 & 0.734         & 0.725         & 0.75          \\ \hline
+  Sensivity                & 0.657         & 0.908         & 0.676         \\ \hline
+  Specificity              & 0.8           & 0.571         & 0.820         \\ \hline
+  \end{tabular}
+  \caption{\label{table_param} Table de résultats}
+\end{table}
 
-On peut voir que la règle 1-2,3,6-7 sont assai simple et facilement compréhensible. 
-Les règles 6-7 expliquent, par exemple, que si le "T-interval"(V8) est petit et le P-interval (v9) est grand, alors le patient a bon chance de n'avoir par de trubles du rythme cardiaque.
+On peut voir du tableau ci-dessus que la valeur maximale du "fitness" est arrivée dans l'expérience 2 où on donne un poids assez grand au \textbf{taux d'erreur (accuracy) et à la sensivité} et un poids plus petit à la spécificité.
+
+
+En plus de la valeur de fitness, on peut aussi voir les règles générées par le système. Les règles du système de l'expérience 2 sont les suivantes:
+
+\begin{enumerate}
+  \item IF V5 is MF 1 AND V4 is MF 0 THEN Out is MF 1
+  \item IF V5 is MF 1 AND V4 is MF 0 THEN Out is MF 1
+  \item IF V15 is MF 1 AND V13 is MF 1 THEN Out is MF 1
+  \item IF V9 is MF 1 AND V2 is MF 0 AND V4 is MF 0 AND V8 is MF 1 THEN Out is MF 1
+  \item IF V9 is MF 1 AND V2 is MF 0 AND V4 is MF 0 AND V8 is MF 1 THEN Out is MF 1
+  \item IF V8 is MF 0 AND V9 is MF 1 THEN Out is MF 0
+  \item IF V8 is MF 0 AND V9 is MF 1 THEN Out is MF 0
+  \item IF V10 is MF 1 AND V11 is MF 0 AND V15 is MF 0 AND V13 is MF 1 THEN Out is MF 1 ELSE : Out is 1  
+\end{enumerate}
+
+
+Chaque variable VX correspond à une caractéristique utilisée pour générer le modèle. Ces caractéristiques sont expliquées sur la page \url{http://archive.ics.uci.edu/ml/datasets/Arrhythmia}.
+Si on prend par exemple la règle 1, on peut la décrire de la façon suivante : si V5 (QRS) est "grand" et V4 (Weight) est petit, alors le patient a de bonnes chances d'avoir des troubles d'arythmie cardiaque (sortie MF 1).
+
+On peut voir que les règles 1-2,3,6-7 sont également simple et facilement compréhensible. 
+Les règles 6-7 expliquent, par exemple, que si le "T-interval" (V8) est petit et le P-interval (V9) est grand, alors le patient a de bonnes chances de n'avoir par de troubles d' arythmie cardiaque.
 
 
  
