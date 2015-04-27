@@ -27,7 +27,7 @@ On peut voir du tableau ci-dessus que la valeur maximale du "fitness" est arriv�
 
 
 En plus de la valeur de fitness, on peut aussi voir les règles générées par le système. Les règles du système de l'expérience 2 sont les suivantes:
-\\
+
 \begin{enumerate}
   \item IF V5 is MF 1 AND V4 is MF 0 THEN Out is MF 1
   \item IF V5 is MF 1 AND V4 is MF 0 THEN Out is MF 1
@@ -38,7 +38,7 @@ En plus de la valeur de fitness, on peut aussi voir les règles générées par 
   \item IF V8 is MF 0 AND V9 is MF 1 THEN Out is MF 0
   \item IF V10 is MF 1 AND V11 is MF 0 AND V15 is MF 0 AND V13 is MF 1 THEN Out is MF 1 ELSE : Out is 1  
 \end{enumerate}
-\\\\
+
 Chaque variable VX correspond à une caractéristique utilisée pour générer le modèle. Ces caractéristiques sont expliquées sur la page \url{http://archive.ics.uci.edu/ml/datasets/Arrhythmia}.
 Si on prend par exemple la règle 1, on peut la décrire de la façon suivante : si V5 (QRS) est "grand" et V4 (Weight) est petit, alors le patient a de bonnes chances d'avoir des troubles d'arythmie cardiaque (sortie MF 1).
 
@@ -47,40 +47,34 @@ Les règles 6-7 expliquent, par exemple, que si le "T-interval" (V8) est petit e
 
 
 \section*{Un plus petit "Fuzzy system"}
-Âpres avoir évalué notre modèle avec différentes fonctions de fitness on veut maintenant générer un modèle plus petit en changeant encore une fois l'évaluation de la fonction de fitness ainsi que changent les nombres des règles et les nombres des variables utilisés.
+
+Apres avoir évalué notre modèle avec différentes fonctions de fitness on veut maintenant générer un modèle plus petit en changeant encore une fois l'évaluation de la fonction de fitness ainsi qu'en changeant les nombres des règles et les nombres des variables utilisés.
 
 On a donc appliqué cette modification et on a reporté les résultats dans le tableau suivant (table \ref{table4}):
-
-
-
-
- 
  
 \begin{table}[h]
-\centering
-
-\label{my-label}
-\begin{tabular}{|l|l|l|l|l|}
-\hline
-\textbf{Criterion weigth} & \textbf{Exp4} & \textbf{Exp5} & \textbf{Exp6} & \textbf{Exp7} \\ \hline
-Accuracy                 & 1             & 1             & 1             & 1             \\ \hline
-Sensivity                & 1             & 1             & 1             & 1             \\ \hline
-Specificity              & 0             & 0             & 0             & 0             \\ \hline
-RMSE                     & 0             & 0             & 0             & 0             \\ \hline
-Size                     & 0.9           & 0.1           & 0.9           & 1             \\ \hline
-\textbf{Fitness max}     & \textbf{0.72} & \textbf{0.65} & \textbf{0.80} & \textbf{0.80} \\ \hline
-Average fitness          & 0.64          & 0.569         & 0.67          & 0.73          \\ \hline
-Accuracy                 & 0.47          & 0.67          & 0.47          & 0.47          \\ \hline
-Sensivity                & 0.995         & 0.67          & 0.99          & 0.995         \\ \hline
-Specificity              & 0.02          & 0.67          & 0.028         & 0.02          \\ \hline
-Size                     & 1             & 0.5           & 1             & 1             \\ \hline
-Régle - variable/règle  & 5 règles - 2 règles      &        &               &               \\ \hline
-\end{tabular}
-\caption{\label{table4}Table des résultats}
+  \centering
+  \begin{tabular}{|l|l|l|l|l|}
+  \hline
+  \textbf{Criterion weight} & \textbf{Exp4} & \textbf{Exp5} & \textbf{Exp6} & \textbf{Exp7} \\ \hline
+  Accuracy                 & 1             & 1             & 1             & 1             \\ \hline
+  Sensivity                & 1             & 1             & 1             & 1             \\ \hline
+  Specificity              & 0             & 0             & 0             & 0             \\ \hline
+  RMSE                     & 0             & 0             & 0             & 0             \\ \hline
+  Size                     & 0.9           & 0.1           & 0.9           & 1             \\ \hline
+  \textbf{Fitness max}     & \textbf{0.72} & \textbf{0.65} & \textbf{0.80} & \textbf{0.80} \\ \hline
+  Average fitness          & 0.64          & 0.569         & 0.67          & 0.73          \\ \hline
+  Accuracy                 & 0.47          & 0.67          & 0.47          & 0.47          \\ \hline
+  Sensivity                & 0.995         & 0.67          & 0.99          & 0.995         \\ \hline
+  Specificity              & 0.02          & 0.67          & 0.028         & 0.02          \\ \hline
+  Size                     & 1             & 0.5           & 1             & 1             \\ \hline
+  Régle - variable/règle  & 5 règles - 2 règles      &        &               &               \\ \hline
+  \end{tabular}
+  \caption{\label{table4}Table des résultats}
 \end{table}
 
-Les résultats du tableau \ref{table4}  montre 4 différentes expériences qu’ on a faites en changeante le poids de la grandeur du modèle et le nombre de variables des règles générées. Dans l'expérience "Exp4" on a mis un poids sur la grandeur dans l'évaluation de la fonction de fitness de 0.9. Depuis cette expérience on obtient une valeur de fitness maximale de  \textbf{0.72} et une grandeur du modèle de \textbf{1}. Dans l'expérience "Exp5" on a changé le nombre de règles à \textbf{2} et les nombres des  variables utilisées pour la description des règles générées par le système à \textbf{2}. Les résultats montre que le système à un taille de \textbf{0.5} mais un fitness de \textbf{0.65}.
-Dans les expériences suivantes (Exp6-7) on a combiné les deux paramètres pour essayer d'avoire de performance meilleure. Effectivement la valeur de fitness est plus haute si on combine ces deux modifications.
+Les résultats du tableau \ref{table4} montrent quatre différentes expériences qu’on a faites en changeant le poids de la grandeur du modèle et le nombre de variables des règles générées. Dans l'expérience "Exp4" on a mis un poids sur la grandeur dans l'évaluation de la fonction de fitness de 0.9. Depuis cette expérience on obtient une valeur de fitness maximale de \textbf{0.72} et une grandeur du modèle de \textbf{1}. Dans l'expérience "Exp5" on a changé le nombre de règles à \textbf{2} et les nombres de variables utilisées pour la description des règles générées par le système à \textbf{2}. Les résultats montrent que le système a un taille de \textbf{0.5} mais un fitness de \textbf{0.65}.
+Dans les expériences suivantes (Exp6-7), on a combiné les deux paramètres pour essayer d'avoir de meilleures performances. Effectivement la valeur de fitness est plus haute si on combine ces deux modifications.
 
 
 
