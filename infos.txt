@@ -1,0 +1,9 @@
+MLBD - Mini-projet
+==================
+
+http://ape.iict.ch/teaching/MLBD2015/Mini-projects/
+
+Le but du projet est d'utiliser des outils de classification tels les SOM (Self-Organizing Maps) dans le but de clusteriser des films selon leur genre en analysant les texte descriptifs des films. Les données sur les films vont être trouvées avec l'API OMDb (http://www.omdbapi.com) ou sur IMDB par exemple. Le but est donc de définir si le genre énoncé d'un film correspond vraiment. Par la suite, la recherche peut-être améliorée par l'analyse de commentaires sur le film ou des sous-titres par exemple.
+
+
+movie list : https://code.google.com/p/two-fifty/source/browse/trunk/imdb-10000.csv
