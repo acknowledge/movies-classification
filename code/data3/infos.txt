@@ -1,0 +1,4 @@
+Filename rule
+=============
+
+'data{movie quantity}-{minOccurrence}-{maxOccurrence}.json'

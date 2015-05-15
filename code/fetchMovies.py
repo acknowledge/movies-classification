@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 import requests, json
 
-def extractMovieList():
+def extractMovieList(fname):
 
-    fname = 'data/movielist.txt'
     with open(fname) as f:
         content = f.readlines()
     
@@ -21,7 +20,7 @@ def extractMovieList():
 
     return [title, year, grade, genre]
 
-def getMovieDescriptions(movieTitles):
+def getMovieDescriptions(movieTitles, fname):
 
     movieInfos = []
     base_url = "http://www.omdbapi.com/?plot=full&r=json&t="
@@ -33,10 +32,8 @@ def getMovieDescriptions(movieTitles):
         r = requests.get(url)
         movieInfos.append(r.json())
         count = count+1
-        #if count >= 3:
-        #    break
-
-    fname = 'data/moviedescriptions.json'
+        if count >= 50:
+            break
 
     with open(fname, 'wb') as outfile:
         json.dump(movieInfos, outfile)
@@ -45,6 +42,6 @@ def getMovieDescriptions(movieTitles):
 
 if __name__ == '__main__':
 
-    movieList = extractMovieList()
+    movieList = extractMovieList('data1/movielist.txt')
 
-    getMovieDescriptions(movieList[0])
+    getMovieDescriptions(movieList[0], 'data2/moviedescriptions.json')
