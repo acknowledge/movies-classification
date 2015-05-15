@@ -3,7 +3,7 @@ import requests, json
 
 def extractMovieList():
 
-    fname = 'movielist.txt'
+    fname = 'data/movielist.txt'
     with open(fname) as f:
         content = f.readlines()
     
@@ -36,7 +36,7 @@ def getMovieDescriptions(movieTitles):
         #if count >= 3:
         #    break
 
-    fname = 'moviedescriptions.json'
+    fname = 'data/moviedescriptions.json'
 
     with open(fname, 'wb') as outfile:
         json.dump(movieInfos, outfile)
@@ -48,7 +48,3 @@ if __name__ == '__main__':
     movieList = extractMovieList()
 
     getMovieDescriptions(movieList[0])
-
-
-    #for t in movieList[0]:
-     #   print t
