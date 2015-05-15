@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 import json
 import numpy as np
+import re
 
-def extractFromFile():
-    fname = 'data/moviedescriptions3.json'
+
+def extractFromFile(fname):
     file = open(fname, 'r')
     array =  file.read()
     data  = json.loads(array)
@@ -19,17 +20,23 @@ def formatTitle(data):
         titles.append(movie['Title'])
     return titles
 
-def formatWords(data, minOccurence, maxOccurence):
+def clean(word):
+    word = word.lower()
+    word = re.sub('[!@#$?.,:;"()]', '', word)
+    return word
+
+def formatWords(data, minOccurrence, maxOccurrence):
     words = []
     for movie in data:
         word_list = movie['Plot'].split()
         for word in word_list:
+            word = clean(word)
             if word not in words:
                 words.append(word)
 
     print 'There is ', len(words), ' words in the initial list.'
 
-    # filter the words that have to much or not enough occurences 
+    # filter the words that have to much or not enough occurrences 
     lowQuantity = 0
     highQuantity = 0
     for w in words[:]:
@@ -38,23 +45,24 @@ def formatWords(data, minOccurence, maxOccurence):
         for movie in data:
             movie_words = movie['Plot'].split()
             for word in movie_words:
+                word = clean(word)
                 if w == word:
                     count = count + 1
-        print w, count
-        if count < minOccurence or count > maxOccurence:
-            if count < minOccurence:
+        #print w, count
+        if count < minOccurrence or count > maxOccurrence:
+            if count < minOccurrence:
                 lowQuantity = lowQuantity + 1
-                print 'the word is ', w
+                #print 'the word is ', w
             else:
                 highQuantity = highQuantity + 1
+                print 'a lot of : ', w
             words.remove(w)
 
 
-    print 'Words with less occurrences than ', minOccurence, ' : ', lowQuantity
-    print 'Words with more occurrences than ', maxOccurence, ' : ', highQuantity
+    print 'Words with less occurrences than ', minOccurrence, ' : ', lowQuantity
+    print 'Words with more occurrences than ', maxOccurrence, ' : ', highQuantity
     print 'There is ', len(words), ' words in the final list.'
 
-    # TODO : enlever les '.', '"', '?'
     return words
 
 def generateMatrix(data, words):
@@ -65,6 +73,7 @@ def generateMatrix(data, words):
             count = 0
             word_list = movie['Plot'].split()
             for w in word_list:
+                w = clean(w)
                 if w == word:
                     count = count + 1
             line.append(count)
@@ -74,29 +83,41 @@ def generateMatrix(data, words):
 
 if __name__ == '__main__':
 
-    movies_data = extractFromFile()
+    dataset = [1, 3, 5, 10, 50, 100]#, 3393]
+    dataset = [3393]
 
-    movies_title = formatTitle(movies_data)
-    #print movies_title
-    # format : movies = ["asdf", "asdfsadf", ...]
+    for n in dataset:
+        fname = 'data2/moviedescriptions' + str(n) + '.json'
+        movies_data = extractFromFile(fname)
 
-    minOccurence = 2
-    maxOccurence = 100
-    movies_words = formatWords(movies_data, minOccurence, maxOccurence)
-    #print movies_words
-    # format : words = ["le", "caca"]
-    #for m in movies_words:
-    #    print m
+        movies_titles = formatTitle(movies_data)
+        #print movies_titles
+        # format : movies = ["asdf", "asdfsadf", ...]
 
-    movies_matrix = generateMatrix(movies_data, movies_words)
-    matrix = np.array(movies_matrix)
-    #for m in matrix:
-    #    print m
-    #print matrix
+        minOccurrence = 2
+        maxOccurrence = 500
+        movies_words = formatWords(movies_data, minOccurrence, maxOccurrence)
+        #for m in movies_words:
+        #    print m
 
-    # format : matrix = np.array([
-            #    [0,0,0,12,2,0],  # valeurs pour le 1er mot
-            #    [0,0,0,12,2,0],  # valeurs pour le 2e mot
-            #    [0,0,0,12,2,0]
-            #    ])
-                  # valeur pour un film
+        movies_matrix = generateMatrix(movies_data, movies_words)
+        #matrix = np.array(movies_matrix)
+        #for m in matrix:
+        #    print m
+        #print matrix
+        # format : matrix = np.array([
+                #    [0,0,0,12,2,0],  # valeurs pour le 1er mot
+                #    [0,0,0,12,2,0],  # valeurs pour le 2e mot
+                #    [0,0,0,12,2,0]
+                #    ])
+                      # valeur pour un film
+
+
+        output = {}
+        output['titles'] = movies_titles
+        output['words'] = movies_words
+        output['matrix'] = movies_matrix
+        
+        output_fname = 'data3/data' + str(n) + '-' + str(minOccurrence) + '-' + str(maxOccurrence) + '.json'
+        with open(output_fname, 'w') as outfile:
+            json.dump(output, outfile)
