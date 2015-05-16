@@ -9,9 +9,9 @@ def readFile(fname):
     return data
 
 def extractArrays(data):
-    titles = infos['titles']
-    words = infos['words']
-    matrix = infos['matrix']
+    titles = data['titles']
+    words = data['words']
+    matrix = data['matrix']
     matrix = np.array(matrix)
 
     return titles, words, matrix
