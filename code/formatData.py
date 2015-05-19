@@ -40,7 +40,7 @@ def formatWords(data):
             if word not in words:
                 words.append(word)
 
-    print 'There is ', len(words), ' words in the initial list.'
+    print 'There is ', len(words), ' words in the list.'
 
     # filter the words that have to much or not enough occurrences 
     '''lowQuantity = 0
