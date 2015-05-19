@@ -2,6 +2,7 @@
 import json
 import numpy as np
 import re
+from nltk.corpus import stopwords
 
 
 def extractFromFile(fname):
@@ -21,23 +22,28 @@ def formatTitle(data):
     return titles
 
 def clean(word):
-    word = word.lower()
+    #word = word.lower()
     word = re.sub('[!@#$?.,:;"()]', '', word)
     return word
 
-def formatWords(data, minOccurrence, maxOccurrence):
+def formatWords(data):
     words = []
     for movie in data:
-        word_list = movie['Plot'].split()
+        plot = movie['Plot'].lower()
+        #word_list = plot.split()
+        # remove 
+        word_list = re.findall(r'\w+', plot, flags = re.UNICODE | re.LOCALE) 
+        # remove the stopwords
+        word_list = filter(lambda x: x not in stopwords.words('english'), word_list)
         for word in word_list:
-            word = clean(word)
+            #word = clean(word)
             if word not in words:
                 words.append(word)
 
     print 'There is ', len(words), ' words in the initial list.'
 
     # filter the words that have to much or not enough occurrences 
-    lowQuantity = 0
+    '''lowQuantity = 0
     highQuantity = 0
     for w in words[:]:
         count = 0
@@ -45,7 +51,7 @@ def formatWords(data, minOccurrence, maxOccurrence):
         for movie in data:
             movie_words = movie['Plot'].split()
             for word in movie_words:
-                word = clean(word)
+                #word = clean(word)
                 if w == word:
                     count = count + 1
         #print w, count
@@ -62,7 +68,7 @@ def formatWords(data, minOccurrence, maxOccurrence):
     print 'Words with less occurrences than ', minOccurrence, ' : ', lowQuantity
     print 'Words with more occurrences than ', maxOccurrence, ' : ', highQuantity
     print 'There is ', len(words), ' words in the final list.'
-
+    '''
     return words
 
 def generateMatrix(data, words):
@@ -83,8 +89,9 @@ def generateMatrix(data, words):
 
 if __name__ == '__main__':
 
-    dataset = [1, 3, 5, 10, 50, 100]#, 3393]
-    dataset = [3393]
+    #dataset = [1, 3, 5, 10, 50, 100]#, 3393]
+    #dataset = [3393]
+    dataset = [50]
 
     for n in dataset:
         fname = 'data2/moviedescriptions' + str(n) + '.json'
@@ -94,9 +101,7 @@ if __name__ == '__main__':
         #print movies_titles
         # format : movies = ["asdf", "asdfsadf", ...]
 
-        minOccurrence = 2
-        maxOccurrence = 500
-        movies_words = formatWords(movies_data, minOccurrence, maxOccurrence)
+        movies_words = formatWords(movies_data)
         #for m in movies_words:
         #    print m
 
@@ -118,6 +123,7 @@ if __name__ == '__main__':
         output['words'] = movies_words
         output['matrix'] = movies_matrix
         
-        output_fname = 'data3/data' + str(n) + '-' + str(minOccurrence) + '-' + str(maxOccurrence) + '.json'
+        output_fname = 'data3/data' + str(n) + '.json'
+        #output_fname = 'data3/datatest.json'
         with open(output_fname, 'w') as outfile:
             json.dump(output, outfile)
