@@ -10,7 +10,7 @@ import matplotlib.pyplot as pl
 from matplotlib import cm
 from loadData import  readFile, extractArrays
 
-fname = 'data3/data100-2-100.json'
+fname = 'data3/data50.json'
 
 infos = readFile(fname)
 titles, words, matrix = extractArrays(infos)
@@ -21,7 +21,7 @@ pl.xticks(np.arange(matrix.shape[1]), words, rotation=45)
 pl.yticks(np.arange(matrix.shape[0]), titles)
 pl.title("titles")
 pl.imshow(matrix, interpolation='nearest', cmap=cm.binary)
-_ = pl.savefig('titles.png')
+_ = pl.savefig('images/titles.png')
 
 
 import kohonen
@@ -82,4 +82,4 @@ for neuron in animalDict:
 
 pl.axis('off')
 
-_ = pl.savefig("Results_Films.png", bbox_inches = 'tight')
+_ = pl.savefig("images/Results_Films.png", bbox_inches = 'tight')
