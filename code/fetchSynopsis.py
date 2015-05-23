@@ -56,26 +56,4 @@ if __name__ == '__main__':
                 print imdbId + ' synopsis is empty (' + str(emptyQty) + ')'
 
     print 'Total empty synopsis : ' + str(emptyQty)
-    
-    # tt0038787 --> vide
-    # tt4073106 --> div.text vide
-
-    '''bug ici :
-
-    299/3393 : tt4073106
-    Traceback (most recent call last):
-      File "fetchSynopsis.py", line 42, in <module>
-        synopsis = extractSynopsis(imdbId)
-      File "fetchSynopsis.py", line 24, in extractSynopsis
-        synopsis = re.sub('<[^<]+?>', '', div.text)
-    AttributeError: 'NoneType' object has no attribute 'text'''
-
-    '''output = {}
-    output['titles'] = movies_titles
-    output['words'] = movies_words
-    output['matrix'] = movies_matrix
-    
-    output_fname = 'data3/data' + str(n) + '.json'
-    #output_fname = 'data3/datatest.json'
-    with open(output_fname, 'w') as outfile:
-        json.dump(output, outfile)'''
+            # --> 851 empty / 3393
