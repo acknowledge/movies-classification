@@ -57,3 +57,4 @@ if __name__ == '__main__':
 
     print 'Total empty synopsis : ' + str(emptyQty)
             # --> 851 empty / 3393
+            # --> 2542 movies
