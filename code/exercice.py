@@ -83,4 +83,4 @@ for neuron in animalDict:
 
 pl.axis('off')
 
-_ = pl.savefig("images/Results_Films.png", bbox_inches = 'tight')
+_ = pl.savefig("images/map10.png", bbox_inches = 'tight')
