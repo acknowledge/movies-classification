@@ -14,7 +14,7 @@ fname = 'data3/data10.json'
 
 infos = readFile(fname)
 titles, words, matrix = extractArrays(infos)
-matrix = np.transpose(matrix)
+#matrix = np.transpose(matrix)
 
 pl.figure(figsize=(20,40))
 pl.xticks(np.arange(matrix.shape[1]*2), words, rotation=45)
