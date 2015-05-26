@@ -10,7 +10,7 @@ import matplotlib.pyplot as pl
 from matplotlib import cm
 from loadData import  readFile, extractArrays
 
-fname = 'data3/data50.json'
+fname = 'data3/datacomedyadventure50.json'
 
 infos = readFile(fname)
 titles, words, matrix = extractArrays(infos)
@@ -31,14 +31,15 @@ from random import shuffle
 ## Initializes the Kohonen map as a rectangular map of len(titles) x len(titles)*2
 def cosine_metric(x, y):
     '''Returns the cosine distance between x and y.'''
-    nx = numpy.sqrt(numpy.sum(x * x, axis=-1))
-    ny = numpy.sqrt(numpy.sum(y * y, axis=-1))
+    nx = np.sqrt(np.sum(x * x, axis=-1))
+    ny = np.sqrt(np.sum(y * y, axis=-1))
     # the cosine metric returns 1 when the args are equal, 0 when they are
     # orthogonal, and -1 when they are opposite. we want the opposite effect,
     # and we want to make sure the results are always nonnegative.
-    return 1 - numpy.sum(x * y, axis=-1) / nx / ny
+    return 1 - np.sum(x * y, axis=-1) / nx / ny
 
 side = len(titles)
+side=side/2
 params = kohonen.Parameters(dimension=len(words), shape=(side,side*2), metric=cosine_metric)
 kmap = kohonen.Map(params)
 
@@ -64,7 +65,7 @@ colors.set_bad('w',1.)
 animalDict = constructSamplesForNeurons(kmap, matrix)
 
 ## Prints U-Matrix
-fig = pl.figure(figsize=(40,80))
+fig = pl.figure(figsize=(20,30))
 
 pl.imshow(u_matrix, cmap=colors, interpolation="nearest")
 pl.colorbar(shrink=0.2)
@@ -78,7 +79,7 @@ for neuron in animalDict:
     animalNames = ""
     for animalID in animalDict[neuron]:
         animalNames += titles[animalID] + "\n"
-    pl.annotate(animalNames, (neurony, neuronx), size=10)
+    pl.annotate(animalNames, (neurony, neuronx), size=6)
 
 pl.axis('off')
 
