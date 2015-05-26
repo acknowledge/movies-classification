@@ -57,27 +57,32 @@ def generateMatrix(data, words):
     print 'Generating matrix...'
     matrix = []
     i = 0
-    for word in words:
+    
+    for movie in data:
         i = i + 1
-        print 'word ' + str(i) + ' on ' + str(len(words))
-        line = []
-        for movie in data:
-            fname = 'data2/synopsis/' + movie['imdbID'] + '.txt'
-            # if synopsis file exists
-            if os.path.isfile(fname):
-                synopsis = ''
-                with open(fname, 'r') as thefile:
-                    synopsis = thefile.read().replace('\n', '')
+        fname = 'data2/synopsis/' + movie['imdbID'] + '.txt'
+        # if synopsis file exists
+        if os.path.isfile(fname):
+            print 'movie ' + str(i) + ' on ' + str(len(data))
+            line = []
+            synopsis = ''
+            with open(fname, 'r') as thefile:
+                synopsis = thefile.read().replace('\n', '')
+
+            synopsis = synopsis.lower()
+            word_list = re.findall(r'\w+', synopsis, flags = re.UNICODE | re.LOCALE) 
+            word_list = filter(lambda x: x not in stopwords.words('english'), word_list)
+            for word in words:
                 count = 0
-                synopsis = synopsis.lower()
-                word_list = re.findall(r'\w+', synopsis, flags = re.UNICODE | re.LOCALE) 
-                word_list = filter(lambda x: x not in stopwords.words('english'), word_list)
+
                 for w in word_list:
-                    #w = clean(w)
                     if w == word:
                         count = count + 1
                 line.append(count)
-        matrix.append(line)
+
+            matrix.append(line)
+        else :
+            print 'movie ' + str(i) + ' has no synopsis'
     print 'Done.'
     return matrix
 
@@ -113,9 +118,11 @@ if __name__ == '__main__':
 
         movies_matrix = generateMatrix(movies_data, movies_words)
         #matrix = np.array(movies_matrix)
+        # WARNING : the array have to be transpose !!! --> matrix.T
         #for m in matrix:
         #    print m
         #print matrix
+        #print matrix.T
         # format : matrix = np.array([
                 #    [0,0,0,12,2,0],  # valeurs pour le 1er mot
                 #    [0,0,0,12,2,0],  # valeurs pour le 2e mot
