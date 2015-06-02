@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import codecs
 
 class MovieCategories:
 
@@ -6,7 +7,7 @@ class MovieCategories:
 
         print 'Extract movie categories from file...'
         fname = 'data1/movielist.txt'
-        with open(fname) as f:
+        with codecs.open(fname,'r',encoding='utf8') as f:
             content = f.readlines()
 
         self.movieCategories = {}
@@ -30,8 +31,13 @@ if __name__ == '__main__':
 
     cat = MovieCategories()
 
-    print 'Fever Pitch﻿ : ', cat.getCategory('Fever Pitch﻿')
-    print 'Star Trek : ', cat.getCategory('Star Trek﻿')
-    print 'Outlander﻿ : ', cat.getCategory('Outlander﻿')
-    print 'The Emperor\'s New Groove﻿ : ', cat.getCategory('The Emperor\'s New Groove﻿')
-    print 'Roger & Me﻿ : ', cat.getCategory('Roger & Me﻿')
+    #print cat.movieCategories
+
+    #for x in cat.movieCategories:
+    #    print x, cat.getCategory(x)
+
+    #print 'Fever Pitch﻿ : ', cat.getCategory('Fever Pitch﻿')
+    #print 'Star Trek : ', cat.getCategory('Star Trek﻿')
+    #print 'Outlander﻿ : ', cat.getCategory('Outlander﻿')
+    #print 'The Emperor\'s New Groove﻿ : ', cat.getCategory('The Emperor\'s New Groove﻿')
+    #print 'Roger & Me﻿ : ', cat.getCategory('Roger & Me﻿')
