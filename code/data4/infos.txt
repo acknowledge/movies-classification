@@ -1,0 +1,1 @@
+This folder contains data files without the words that appear only once.
