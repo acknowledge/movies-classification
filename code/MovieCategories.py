@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import codecs
+from loadData import readFile, extractArrays
 
 class MovieCategories:
 
@@ -7,7 +8,7 @@ class MovieCategories:
 
         print 'Extract movie categories from file...'
         fname = 'data1/movielist.txt'
-        with codecs.open(fname,'r',encoding='utf8') as f:
+        with codecs.open(fname,'r') as f:
             content = f.readlines()
 
         self.movieCategories = {}
@@ -16,9 +17,9 @@ class MovieCategories:
             infos = line.split('  ')
             #title.append(infos[0].replace('"',''))
             #year.append(infos[1])
-            #grade.append(infos[3])
+            #grade.append(infos[,encoding='utf8'3])
             #genre.append(infos[4])
-            self.movieCategories[infos[0].replace('"','')] = infos[4];
+            self.movieCategories[infos[0].replace('"','').replace('\xef\xbb\xbf','')] = infos[4];
 
         print 'Done.'
 
@@ -31,7 +32,13 @@ if __name__ == '__main__':
 
     cat = MovieCategories()
 
-    #print cat.movieCategories
+    fname = 'data4/data3.json'
+    infos = readFile(fname)
+    titles, words, matrix = extractArrays(infos)
+    print titles
+    print cat.movieCategories
+    for t in titles:
+        print cat.getCategory(t)
 
     #for x in cat.movieCategories:
     #    print x, cat.getCategory(x)
@@ -41,3 +48,4 @@ if __name__ == '__main__':
     #print 'Outlander﻿ : ', cat.getCategory('Outlander﻿')
     #print 'The Emperor\'s New Groove﻿ : ', cat.getCategory('The Emperor\'s New Groove﻿')
     #print 'Roger & Me﻿ : ', cat.getCategory('Roger & Me﻿')
+
