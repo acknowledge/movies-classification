@@ -1,0 +1,3 @@
+The data files contain every word.
+
+There is no filtering and no processing.

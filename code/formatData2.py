@@ -89,9 +89,9 @@ def generateMatrix(data, words):
 def saveToFile(titles, words, matrix, fname):
     print 'Saving data to file...'
     output = {}
-    output['titles'] = movies_titles
-    output['words'] = movies_words
-    output['matrix'] = movies_matrix
+    output['titles'] = titles
+    output['words'] = words
+    output['matrix'] = matrix
     
     #output_fname = 'data3/datatest.json'
     with open(fname, 'w') as outfile:
