@@ -11,16 +11,17 @@ from matplotlib import cm
 from loadData import  readFile, extractArrays
 from sklearn.metrics.pairwise import pairwise_distances
 from MovieCategories import MovieCategories
+import pylab
 fname = 'data3/data50.json'
 
 
 infos = readFile(fname)
 titles, words, matrix = extractArrays(infos)
 #titles=np.array(titles)
-print titles[1]
+print titles[6]
 cat=MovieCategories()
 
-cat.getCategory(titles[4])
+cat.getCategory(titles[6])
 #matrix = np.transpose(matrix)
 
 #pl.figure(figsize=(20,40))
@@ -46,15 +47,17 @@ def cosine_metric(x, y):
     # orthogonal, and -1 when they are opposite. we want the opposite effect,
     # and we want to make sure the results are always nonnegative.
     return 1 - np.sum(x * y, axis=-1) / nx / ny
-    
+print matrix[:,1]
 distanceMatrix =pairwise_distances(matrix, metric='cosine')
+np.sort(distanceMatrix[2,:])
 print distanceMatrix.shape
+
+
 Z=linkage(distanceMatrix)#,method='centroid')
 print Z.shape
-image=dendrogram(Z,labels=titles, distance_sort='ascending',
-                 leaf_font_size=5,orientation='left')
-pl.figure(figsize=(40,40))
-pl.figimage(image)
+image=dendrogram(Z,labels=titles, distance_sort='descending',
+                 leaf_font_size=4,orientation='left')
+pylab.savefig("exampleDendrogram.png",dpi=200 )
 #cluster=fcluster(Z,0.6, depth=3)
 #_ = pl.savefig('images/clusters.png')
 
