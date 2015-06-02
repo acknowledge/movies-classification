@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pyplot as pl
 from matplotlib import cm
 from loadData import  readFile, extractArrays
-
+from sklearn.metrics.pairwise import pairwise_distances
 fname = 'data3/data50.json'
 
 infos = readFile(fname)
@@ -27,6 +27,8 @@ titles, words, matrix = extractArrays(infos)
 import kohonen
 from Utils import computeUMatrix, constructSamplesForNeurons, ExponentialTimeseries as ET
 from random import shuffle
+from scipy.spatial import distance 
+from hcluster import pdist, linkage, dendrogram, fcluster
 
 ## define cosine metric for configure distance metrix on kohonen
 def cosine_metric(x, y):
@@ -37,9 +39,21 @@ def cosine_metric(x, y):
     # orthogonal, and -1 when they are opposite. we want the opposite effect,
     # and we want to make sure the results are always nonnegative.
     return 1 - np.sum(x * y, axis=-1) / nx / ny
+    
+distanceMatrix =pairwise_distances(matrix, metric='cosine')
+print distanceMatrix.shape
+Z=linkage(distanceMatrix)#,method='centroid')
+print Z.shape
+image=dendrogram(Z,labels=titles, distance_sort='ascending',
+                 leaf_font_size=5,orientation='left')
+pl.figure(figsize=(40,40))
+pl.figimage(image)
+cluster=fcluster(Z,0.6, depth=3)
+#_ = pl.savefig('images/clusters.png')
+
 ## Initializes the Kohonen map as a rectangular map of len(titles) x len(titles)*2
 side = len(titles)
-sid=side/2
+side=side/2
 params = kohonen.Parameters(dimension=len(words), shape=(side,side*2), metric=cosine_metric)
 kmap = kohonen.Map(params)
 
