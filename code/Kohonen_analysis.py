@@ -10,10 +10,17 @@ import matplotlib.pyplot as pl
 from matplotlib import cm
 from loadData import  readFile, extractArrays
 from sklearn.metrics.pairwise import pairwise_distances
+from MovieCategories import MovieCategories
 fname = 'data3/data50.json'
+
 
 infos = readFile(fname)
 titles, words, matrix = extractArrays(infos)
+#titles=np.array(titles)
+print titles[1]
+cat=MovieCategories()
+
+cat.getCategory(titles[4])
 #matrix = np.transpose(matrix)
 
 #pl.figure(figsize=(20,40))
@@ -48,7 +55,7 @@ image=dendrogram(Z,labels=titles, distance_sort='ascending',
                  leaf_font_size=5,orientation='left')
 pl.figure(figsize=(40,40))
 pl.figimage(image)
-cluster=fcluster(Z,0.6, depth=3)
+#cluster=fcluster(Z,0.6, depth=3)
 #_ = pl.savefig('images/clusters.png')
 
 ## Initializes the Kohonen map as a rectangular map of len(titles) x len(titles)*2
