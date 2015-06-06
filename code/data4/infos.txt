@@ -1,1 +1,62 @@
 This folder contains data files without the words that appear only once.
+
+
+Size in data3  VS  size in data4 :
+
+
+Taille matrix avant : (1, 703)
+Taille words avant : (703,)
+Taille matrix avant : (1, 191)
+Taille words avant : (191,)
+Saving data to file...
+Done.
+File 'data4/data1.json' saved.
+
+Taille matrix avant : (3, 1605)
+Taille words avant : (1605,)
+Taille matrix avant : (3, 488)
+Taille words avant : (488,)
+Saving data to file...
+Done.
+File 'data4/data3.json' saved.
+
+Taille matrix avant : (5, 1894)
+Taille words avant : (1894,)
+Taille matrix avant : (5, 601)
+Taille words avant : (601,)
+Saving data to file...
+Done.
+File 'data4/data5.json' saved.
+
+Taille matrix avant : (9, 2558)
+Taille words avant : (2558,)
+Taille matrix avant : (9, 960)
+Taille words avant : (960,)
+Saving data to file...
+Done.
+File 'data4/data10.json' saved.
+
+Taille matrix avant : (41, 7277)
+Taille words avant : (7277,)
+Taille matrix avant : (41, 3511)
+Taille words avant : (3511,)
+Saving data to file...
+Done.
+File 'data4/data50.json' saved.
+
+Taille matrix avant : (77, 11535)
+Taille words avant : (11535,)
+Taille matrix avant : (77, 6160)
+Taille words avant : (6160,)
+Saving data to file...
+Done.
+File 'data4/data100.json' saved.
+
+jacky@grid:~/Documents/Master/MLBD/project/project/code$ python applyFilter.py 
+Taille matrix avant : (2396, 57987)
+Taille words avant : (57987,)
+Taille matrix avant : (2396, 39404)
+Taille words avant : (39404,)
+Saving data to file...
+Done.
+File 'data4/data3393.json' saved.
