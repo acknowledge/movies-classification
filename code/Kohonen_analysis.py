@@ -12,16 +12,16 @@ from loadData import  readFile, extractArrays
 from sklearn.metrics.pairwise import pairwise_distances
 from MovieCategories import MovieCategories
 import pylab
-fname = 'data3/data50.json'
+fname = 'data4/data50.json'
 
 
 infos = readFile(fname)
 titles, words, matrix = extractArrays(infos)
 #titles=np.array(titles)
-print titles[6]
+print titles[3]
 cat=MovieCategories()
 
-cat.getCategory(titles[6])
+cat.getCategory(titles[3])
 #matrix = np.transpose(matrix)
 
 #pl.figure(figsize=(20,40))
@@ -53,10 +53,10 @@ np.sort(distanceMatrix[2,:])
 print distanceMatrix.shape
 
 
-Z=linkage(distanceMatrix)#,method='centroid')
+Z=linkage(distanceMatrix,method='average')#,method='centroid')
 print Z.shape
-image=dendrogram(Z,labels=titles, distance_sort='descending',
-                 leaf_font_size=4,orientation='left')
+image=dendrogram(Z,labels=titles, distance_sort='descendent',
+                 leaf_font_size=4,orientation='left', show_contracted=True)
 pylab.savefig("exampleDendrogram.png",dpi=200 )
 #cluster=fcluster(Z,0.6, depth=3)
 #_ = pl.savefig('images/clusters.png')
