@@ -62,7 +62,7 @@ printClosest(4,10,distanceMatrix,titlesCat)
 
 Z=linkage(distanceMatrix,method='average')#,method='centroid')
 
-print "more closest cluster"
+print "first closest cluster"
 for idx in range(10):
     lenTitle=len(titles)
     if (int(Z[idx,0])<lenTitle) & (int(Z[idx,1])<lenTitle):
