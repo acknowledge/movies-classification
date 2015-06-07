@@ -17,14 +17,17 @@ class MovieCategories:
             infos = line.split('  ')
             #title.append(infos[0].replace('"',''))
             #year.append(infos[1])
-            #grade.append(infos[,encoding='utf8'3])
+            #grade.append(infos[3])
             #genre.append(infos[4])
             self.movieCategories[infos[0].replace('"','').replace('\xef\xbb\xbf','')] = infos[4];
 
         print 'Done.'
 
     def getCategory(self, movieTitle):
-        return self.movieCategories[movieTitle]
+        if movieTitle in self.movieCategories:
+            return self.movieCategories[movieTitle]
+        else:
+            return 'category not found'
 
 if __name__ == '__main__':
 
@@ -32,13 +35,12 @@ if __name__ == '__main__':
 
     cat = MovieCategories()
 
-    fname = 'data4/data3.json'
+    fname = 'data4/data50.json'
     infos = readFile(fname)
     titles, words, matrix = extractArrays(infos)
-    print titles
-    print cat.movieCategories
+
     for t in titles:
-        print cat.getCategory(t)
+        print t, cat.getCategory(t)
 
     #for x in cat.movieCategories:
     #    print x, cat.getCategory(x)

@@ -9,8 +9,7 @@ def saveToFile(titles, words, matrix, fname):
     output['titles'] = titles
     output['words'] = words
     output['matrix'] = matrix
-    #print output
-    output_fname = 'data3/datatest.json'
+
     with open(fname, 'w') as outfile:
         json.dump(output, outfile)
     print 'Done.'
@@ -38,12 +37,12 @@ if __name__ == '__main__':
 
     # THIS CODE LOAD 3 ARRAYS FROM A FILE FROM THE FOLDER 'data3'
     # The arrays are 'titles', 'words' and 'matrix'
-    # They are used as input for the Self-Organizing Map
+    # They are filtered and saved in the folder 'data4'
     
 
     #dataset = [1, 3, 5, 10, 50, 100]#, 3393]
-    dataset = [3393]
-    #dataset = [3]
+    #dataset = [3393]
+    dataset = [3]
 
     for n in dataset:
         fname = 'data3/data' + str(n) + '.json'
@@ -55,7 +54,6 @@ if __name__ == '__main__':
 
     	matrix = matrix.tolist()
         
-        print 'Data loaded'
         output_fname = 'data4/data' + str(n) + '.json'
         saveToFile(titles, words, matrix, output_fname)
 
