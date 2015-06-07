@@ -27,7 +27,7 @@ class MovieCategories:
         if movieTitle in self.movieCategories:
             return self.movieCategories[movieTitle]
         else:
-            return 'category not found'
+            return ''
 
 if __name__ == '__main__':
 

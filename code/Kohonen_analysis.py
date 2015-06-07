@@ -12,16 +12,22 @@ from loadData import  readFile, extractArrays
 from sklearn.metrics.pairwise import pairwise_distances
 from MovieCategories import MovieCategories
 import pylab
-fname = 'data4/data50.json'
+fname = 'data5/data50.json'
 
 
 infos = readFile(fname)
 titles, words, matrix = extractArrays(infos)
 #titles=np.array(titles)
-print titles[3]
+print titles[2]
 cat=MovieCategories()
 
-cat.getCategory(titles[3])
+cat.getCategory(titles[2])
+titlesCat=[None] * len(titles)
+category=[None] * len(titles)
+for idx, val in enumerate(titles):
+    titlesCat[idx]=titles[idx]+":"+cat.getCategory(titles[idx])
+    category[idx]=cat.getCategory(titles[idx]);
+    #print titlesCat[idx]
 #matrix = np.transpose(matrix)
 
 #pl.figure(figsize=(20,40))
@@ -37,6 +43,8 @@ from Utils import computeUMatrix, constructSamplesForNeurons, ExponentialTimeser
 from random import shuffle
 from scipy.spatial import distance 
 from hcluster import pdist, linkage, dendrogram, fcluster
+import heapq
+from printClosest import printClosest   
 
 ## define cosine metric for configure distance metrix on kohonen
 def cosine_metric(x, y):
@@ -49,21 +57,20 @@ def cosine_metric(x, y):
     return 1 - np.sum(x * y, axis=-1) / nx / ny
 print matrix[:,1]
 distanceMatrix =pairwise_distances(matrix, metric='cosine')
-np.sort(distanceMatrix[2,:])
-print distanceMatrix.shape
+printClosest(4,10,distanceMatrix,titlesCat)
 
 
 Z=linkage(distanceMatrix,method='average')#,method='centroid')
 print Z.shape
-image=dendrogram(Z,labels=titles, distance_sort='descendent',
-                 leaf_font_size=4,orientation='left', show_contracted=True)
-pylab.savefig("exampleDendrogram.png",dpi=200 )
+image=dendrogram(Z,labels=titlesCat, distance_sort='descendent',
+                 leaf_font_size=2, orientation='left', show_contracted=False)
+pylab.savefig("images/clustering50_tf_idf.png",dpi=300,bbox_inches='tight')
 #cluster=fcluster(Z,0.6, depth=3)
 #_ = pl.savefig('images/clusters.png')
 
 ## Initializes the Kohonen map as a rectangular map of len(titles) x len(titles)*2
 side = len(titles)
-side=side/2
+side=side/4
 params = kohonen.Parameters(dimension=len(words), shape=(side,side*2), metric=cosine_metric)
 kmap = kohonen.Map(params)
 
@@ -103,9 +110,9 @@ for neuron in filmDict:
     pl.scatter(neurony, neuronx)
     filmNames = ""
     for filmID in filmDict[neuron]:
-        filmNames += titles[filmID] + "\n"
+        filmNames += titles[filmID] + "\n" +category[filmID]
     pl.annotate(filmNames, (neurony, neuronx), size=9)
 
 pl.axis('off')
 
-_ = pl.savefig("images/map10.png", bbox_inches = 'tight')
+_ = pl.savefig("images/map50_tfidf_3.png", bbox_inches = 'tight')
