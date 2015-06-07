@@ -1,0 +1,129 @@
+\chapter{Resultats obtenu}
+%---------------------------------------------------------------------------------------------------------------
+\section{Liste films similaire}
+
+Les résultats de la liste sont les suivantes:
+
+\begin{lstlisting}[language=python]
+  Witness for the Prosecution:Crime,Drama,Mystery,Thriller :
+
+  0 Witness for the Prosecution:Crime,Drama,Mystery,Thriller
+
+  1 A Few Good Men:Crime,Drama,Mystery,Thriller
+
+  2 Touch of Evil:Crime,Film-Noir,Thriller
+
+  3 Chaplin:Biography,Drama
+
+  4 Breaking the Waves:Drama,Romance
+
+  5 Before the Devil Knows Youre Dead:Crime,Drama,Thriller
+
+  6 Mercury Rising:Action,Crime,Drama,Thriller
+
+  7 The Graduate:Comedy,Drama,Romance
+
+  8 Scary Movie:Comedy
+
+  9 Femme Fatale:Crime,Thriller
+\end{lstlisting}
+
+On peut voir que la catégorie du film sélectionné est "	Crime,Drama,Mystery,Thriller" et on voir que le film détecté comme similaire ont des catégories en commun. On peut en déduire que l'algorithme semble reconnaitre assai bien les films similaires même si on sais pas si les catégories attribuées sont virement juste. 
+
+
+%---------------------------------------------------------------------------------------------------------------
+\section{Clustering hirarchical}
+
+Les résultats du clustering hiérarchique sont montrés dans l'image ci-dessous :
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=0.6\linewidth]{img/clustering50_tf_idf.png}
+  \caption{Dendogram du hierachical clustering}
+  \label{hierarchical}
+\end{figure}
+
+En faisan un zoom sur limage (figure \ref{zoom}) on peut voire quel film a été groupé et on peut voire sa catégorie. Dans l'image ci-dessous on peut voir comme le film de la même catégorie a été groupé ensemble.
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=1\linewidth]{img/zoom.png}
+  \caption{Dendogram du hierachical clustering, zoom}
+  \label{zoom}
+\end{figure}
+\newpage
+
+%Pour les films sans catégorie on peut cette fois les imaginer en regardant le groupement que l'algorithme a fait. Pour le film "Bruno" (figure \ref{bruno}) on peut en ne déduire que c'est similaire à "Chaplin" et qui aura une catégorie similaire a "Biography, Drama" ou peut-être il's ont simplement la description du film similaire. Peut-être aussi de ce deux films sont définissent une nouvelle catégorie. En regardant sur IMDB et en recherchant sur Wikipedia on peut voire qu’effectivement le film Bruno est un comédie drôle qui parle du personnage Bruno. On peut donc confirmer qui appartiens aussi à la catégorie "Biographie".
+Pour les films sans catégorie on peut cette fois les imaginer en regardant le groupement que l'algorithme a fait. Pour le film "White noise" (figure \ref{whitenoise}) on peut en ne déduire que c'est similaire à "Rounders" et qui aura une catégorie similaire a "Crime, Drama" ou peut-être il's ont simplement la description du film similaire. Peut-être aussi de ce deux films sont définissent une nouvelle catégorie. En regardant sur IMDB et en recherchant sur Wikipedia on peut voire effectivement le film "White noise" est dans les catégories "Drama, Mystery" c'est qui c'est donc vraisemblable avec notre résultats.
+
+ 
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=0.6\linewidth]{img/whitenoise.png}
+  \caption{Dendogram du hierachical clustering, zoom}
+  \label{whitenoise}
+\end{figure}
+
+%---------------------------------------------------------------------------------------------------------------
+\section{Map de kohonen}
+
+Une fois avoir vu que l'algorithme est capable de reconnaitre les films avec une description similaire on peut utiliser un algorithme plus avancé pour avoir en sortie une map des films placés dans une région de la map. Les couleurs de la map représentent la distance entre chaque film. Rouge indique que la distance est grande et Bleut indique le contraire.
+
+La figure \ref{map1} montre un exemple d'un map généré avec 100 films.
+
+On peut voir depuis l'image
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\linewidth]{img/map-cluster.png}
+	\caption{Map de Kohonen avec 100 films}
+	\label{map1}
+\end{figure}
+
+On peut voire depuis les couleurs de l'image qui il a de zones délimitées par de rouge, comme l'angle en bas à gauche et de zones délimitées par de vert ou jeune. La division en rouge indique que la division est beaucoup plus forte que celle jeune. Si on agrandit l'image on pourra voir le groupe des films similaire que la map de Kohon a créé.
+Dans l'image \ref{map1zoom2} agrandie on put voire que dans l'angle en bas à gauche on a de groupe délimité par de zones. On peut voire que l'algorithme mis dans l'angle en bas (cercle rouge) les "Bloody Rayan et Alient vs Predator" et on peut aussi voie que la catégorie donnée par IMDB est la même par le deux. On peut en déduire que la description de ce deux est effectivement similaire.
+
+Dans l'ellipse orange on peut voie un outre groupe résultant depuis la map de Kohonen qui met ensemble le filme d'action, d'aventure et "Drama".
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/map1zoom2.png}
+	\caption{Map de Kohonen avec le zoom de l'angle en bas à gauche}
+	\label{map1zoom2}
+\end{figure}
+\newpage
+Dans l'outre coté de l'image(figure \ref{map1zoom2} ) on peut voire une outre groupe des films. O voit que cette fois on regroupe les films avec les categories "Crime , Drama, Comedy, Biography". Même si les categorie sont legerement differentes on doit pense que la reconnessance est fait sur la description du film et pas sur d'outre parametre plus a haut niveau.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\linewidth]{img/map1zoom3.png}
+\caption{Map de Kohonen avec le zoom de l'angle en bas à droite}
+\label{map1zoom2}
+\end{figure}
+
+
+%---------------------------------------------------------------------------------------------------------------
+% Code integration example
+%\begin{lstlisting}[language=bash]
+%  sudo apt-get update
+%  sudo apt-get install drupal7
+%\end{lstlisting}
+
+% Image integration example
+%\begin{figure}[h]
+%  \centering
+%    \includegraphics[width=1\linewidth]{img/drupalFirstPage.png}
+%  \caption{Page d'accueil du site créé avec Drupal sur une instance EC2}
+%  \label{drupalfirstpage}
+%\end{figure}
+
+% Image side-by-side
+%\begin{figure}[h!]
+%    \centering
+%    \begin{tabular}{cccc}
+%      \includegraphics[width=.14\linewidth]{randomTree_n5.png} &
+%      \includegraphics[width=.22\linewidth]{randomTree_n10.png} &
+%      \includegraphics[width=.22\linewidth]{randomTree_n15.png} \\
+%      (a) & (b) & (c)\\
+%    \end{tabular}
+%    \caption{Arbres aléatoires où (a) n=5 (b) n=10 (c) n=15
+%    \label{randomTrees}}
+%\end{figure}
