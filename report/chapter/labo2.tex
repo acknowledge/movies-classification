@@ -122,15 +122,18 @@ Witness for the Prosecution:Crime,Drama,Mystery,Thriller:
 		\end{figure}
 		\newpage
 	%Pour les films sans catégorie on peut cette fois les imaginer en regardant le groupement que l'algorithme a fait. Pour le film "Bruno" (figure \ref{bruno}) on peut en ne déduire que c'est similaire à "Chaplin" et qui aura une catégorie similaire a "Biography, Drama" ou peut-être il's ont simplement la description du film similaire. Peut-être aussi de ce deux films sont définissent une nouvelle catégorie. En regardant sur IMDB et en recherchant sur Wikipedia on peut voire qu’effectivement le film Bruno est un comédie drôle qui parle du personnage Bruno. On peut donc confirmer qui appartiens aussi à la catégorie "Biographie".
-	Pour les films sans catégorie on peut cette fois les imaginer en regardant le groupement que l'algorithme a fait. Pour le film "White noise" (figure \ref{whitenoise}) on peut en ne déduire que c'est similaire à "Rounders" et qui aura une catégorie similaire a "Crime, Drama" ou peut-être il's ont simplement la description du film similaire. Peut-être aussi de ce deux films sont définissent une nouvelle catégorie. En regardant sur IMDB et en recherchant sur Wikipedia on peut voire effectivement le film "White noise" est dans les catégories "Drama, Mystery" c'est qui c'est donc vraisemblable avec notre résultats.
-		
+	%Pour les films sans catégorie on peut cette fois les imaginer en regardant le groupement que l'algorithme a fait. Pour le film "White noise" (figure \ref{whitenoise}) on peut en ne déduire que c'est similaire à "Rounders" et qui aura une catégorie similaire a "Crime, Drama" ou peut-être il's ont simplement la description du film similaire. Peut-être aussi de ce deux films sont définissent une nouvelle catégorie. En regardant sur IMDB et en recherchant sur Wikipedia on peut voire effectivement le film "White noise" est dans les catégories "Drama, Mystery" c'est qui c'est donc vraisemblable avec notre résultats.
+	Dans les clusters crée il y a aussi "Scary Movie" qui est groupé avec "Before the Devil Knows Yo're Dead" (figure \ref{scarymovie})qui sont de catégorie complètement différents. Mais si on regarde le texte de synopsis on peut voire qu’il y a beaucoup de mot qui sont en commun entre les deux films. Plus précisément les deux films ont les mots "Bobby, Ray, kill" avec une fréquence très haute dans le deux synopsis. Cela est aussi vraisemblable parce que "Scary movie" est en effet un parodie des films d'horreur. 	
 	 
 		\begin{figure}[h]
 			  \centering
-			    \includegraphics[width=0.6\linewidth]{img/whitenoise.png}
-			  \caption{Dendogram du hierachical clustering, zoom}
-			  \label{whitenoise}
+			    \includegraphics[width=0.6\linewidth]{img/scarymovie.png}
+			  \caption{Scary movie et Before the Devil Knows Yo're Dead}
+			  \label{scarymovie}
 			\end{figure}
+
+
+
 	
 	\section{Map de kohonen}
 	Une fois avoir vu que l'algorithme est capable de reconnaitre les films avec une description similaire on peut utiliser un algorithme plus avancé pour avoir en sortie une map des films placés dans une région de la map. Les couleurs de la map représentent la distance entre chaque film. Rouge indique que la distance est grande et Bleut indique le contraire.
@@ -164,6 +167,7 @@ Witness for the Prosecution:Crime,Drama,Mystery,Thriller:
 		\caption{Map de Kohonen avec le zoom de l'angle en bas à droite}
 		\label{map1zoom2}
 	\end{figure}
+	
 	
 
  
