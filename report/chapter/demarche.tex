@@ -1,0 +1,140 @@
+\chapter{Démarche}
+%---------------------------------------------------------------------------------------------------------------
+\section{Création du dataset}
+
+asdf
+
+
+
+%---------------------------------------------------------------------------------------------------------------
+\section{Création des vecteurs des documents}
+
+asdf
+
+
+%---------------------------------------------------------------------------------------------------------------
+\section{Amélioration des vecteur de documents}
+
+tfidf, suppression mot unique
+
+
+
+%---------------------------------------------------------------------------------------------------------------
+\section{Matrice de distances}
+
+\label{matrice-distance}
+Pour avoir une notion de distance entre les documents on a fait une matrice de distances. Pour faire cela, on a utilisé la librairie "hcluster" \footnote{Hcluster, \url{https://code.google.com/p/scipy-cluster/}} qui prend en entrée une matrice des vecteurs des documents et il permet de définir une matrice de distance : dans notre cas on a utilisé la fonction "cosine".
+
+Le code pour la génération de la matrice de distance est le suivante:
+
+% Code integration example
+\begin{lstlisting}[language=python]
+  titles, words, matrix = extractArrays(infos)
+  distanceMatrix =pairwise_distances(matrix, metric='cosine')
+\end{lstlisting}
+
+
+%---------------------------------------------------------------------------------------------------------------
+\section{Affichage film plus similaires}
+
+Pour voire si la matrice des vecteurs des documents décrit bien les documents on a fait une fonction qui avec un film en paramètre il retourne les N films las plus similaires de celui-ci.
+La fonction prend en paramètre, l'id du film initial, le nombre des films similaire à afficher, la matrice de distance décrite dans la section \ref{matrice-distance} ainsi que le vecteur des titres des films.
+Le code de ce fonction est le suivante:
+
+\begin{lstlisting}[language=python]
+def printClosest(idxFilm, numclosest, distanceMatrix, titles):
+  print titles[idxFilm]+":"
+  cloasest= heapq.nsmallest(numclosest,range(len(distanceMatrix[idxFilm])),distanceMatrix[idxFilm].take)
+  for idx, val in enumerate(cloasest):
+      print  "\t"+str(idx)+" "+titles[val]
+  
+\end{lstlisting}
+
+
+%---------------------------------------------------------------------------------------------------------------
+\section{Clustering Hierarchical}
+
+Une fois avoir évaluée quelques films avec la liste des films similaires pou voulu vérifier mieux  cela en faisan un clastering hiérarchique et en vérifiant que les filme regroupé dans un clastering sont une catégorie similaire.
+
+Pour faire cela, on utilise la libraire "hcluster" pour effectuer le clustering hiérarchique en se basant sur la matrice de distances.
+
+Le clustering hiérarchique sera visualisé dans un dendogram représentant les regroupements des films.
+
+\begin{lstlisting}[language=python]
+Z=linkage(distanceMatrix,method='average')#,method='centroid')
+print Z.shape
+image=dendrogram(Z,labels=titlesCat, distance_sort='descendent',
+         leaf_font_size=2, orientation='left', show_contracted=False)
+pylab.savefig("images/clustering100_tf_idf.png",dpi=300,bbox_inches='tight')	 	  
+\end{lstlisting}
+
+Pour nous aider à la visualisation du graphique on a utilisé une fonction utilitaire pour visionner les films les plus similaires que sont regroupé par l'algorithme de clustering.
+
+Pour faire cela on a fait la fonction suivante:
+
+\begin{lstlisting}[language=python]
+print "first closest cluster"
+for idx in range(10):
+    lenTitle=len(titles)
+    if (int(Z[idx,0])<lenTitle) & (int(Z[idx,1])<lenTitle):
+        print "itr "+str(idx)+":\n"+titlesCat[int(Z[idx,0])]+" "+titlesCat[int(Z[idx,1])]
+\end{lstlisting}
+
+La variable Z a été calculée par la fonction de la libraire "hcluter" et on peut voir, à chaque itération, quel film a été mis ensemble avec quelle outre.	
+
+
+%---------------------------------------------------------------------------------------------------------------
+\section{Map de kohonen}
+
+Une fois avoir vu les résultats depuis le clustering hiérarchique on peut analyser la matrice initiale avec un algorithme un peu plus avancé et qui donne des résultats plus visuels.
+
+On utilise donc l'algorithme de Khonen qui prend en entrée notre matrice des vecteurs des documents et donne en sortie une map en couleur avec la position de chaque filme par rapport a les autres et avec des couleurs pour représenter la distance entre chaque film. 
+
+Pour faire cela, on a utilisé la base du code fait dans le TP 
+4 \footnote{TP Kohonen, HES-SO, \url{http://193.134.218.37/labs/lab4/lab4_assignment.html}}. Dans celui-là  on a modifié la métrique de mesure de la distance et la construction de la matrice initiale : 
+
+\begin{lstlisting}[language=python]
+# define cosine metric for configure distance metrix on kohonen
+def cosine_metric(x, y):
+	#Returns the cosine distance between x and y.
+	nx = np.sqrt(np.sum(x * x, axis=-1))
+	ny = np.sqrt(np.sum(y * y, axis=-1))
+	# the cosine metric returns 1 when the args are equal, 0 when they are
+	# orthogonal, and -1 when they are opposite. we want the opposite effect,
+	# and we want to make sure the results are always nonnegative.
+	return 1 - np.sum(x * y, axis=-1) / nx / ny
+
+params = kohonen.Parameters(dimension=len(words), shape=(side,side*2), metric=cosine_metric)
+kmap = kohonen.Map(params)
+\end{lstlisting}
+
+
+
+
+%---------------------------------------------------------------------------------------------------------------
+% Code integration example
+%\begin{lstlisting}[language=bash]
+%  sudo apt-get update
+%  sudo apt-get install drupal7
+%\end{lstlisting}
+
+% Image integration example
+%\begin{figure}[h]
+%  \centering
+%    \includegraphics[width=1\linewidth]{img/drupalFirstPage.png}
+%  \caption{Page d'accueil du site créé avec Drupal sur une instance EC2}
+%  \label{drupalfirstpage}
+%\end{figure}
+
+% Image side-by-side
+%\begin{figure}[h!]
+%    \centering
+%    \begin{tabular}{cccc}
+%      \includegraphics[width=.14\linewidth]{randomTree_n5.png} &
+%      \includegraphics[width=.22\linewidth]{randomTree_n10.png} &
+%      \includegraphics[width=.22\linewidth]{randomTree_n15.png} \\
+%      (a) & (b) & (c)\\
+%    \end{tabular}
+%    \caption{Arbres aléatoires où (a) n=5 (b) n=10 (c) n=15
+%    \label{randomTrees}}
+%\end{figure}
