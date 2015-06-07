@@ -12,7 +12,7 @@ from loadData import  readFile, extractArrays
 from sklearn.metrics.pairwise import pairwise_distances
 from MovieCategories import MovieCategories
 import pylab
-fname = 'data5/data50.json'
+fname = 'data5/data100.json'
 
 
 infos = readFile(fname)
@@ -61,10 +61,19 @@ printClosest(4,10,distanceMatrix,titlesCat)
 
 
 Z=linkage(distanceMatrix,method='average')#,method='centroid')
+
+print "more closest cluster"
+for idx in range(10):
+    lenTitle=len(titles)
+    if (int(Z[idx,0])<lenTitle) & (int(Z[idx,1])<lenTitle):
+        print "itr "+str(idx)+":\n"+titlesCat[int(Z[idx,0])]+" "+titlesCat[int(Z[idx,1])]
+
+
+
 print Z.shape
 image=dendrogram(Z,labels=titlesCat, distance_sort='descendent',
                  leaf_font_size=2, orientation='left', show_contracted=False)
-pylab.savefig("images/clustering50_tf_idf.png",dpi=300,bbox_inches='tight')
+pylab.savefig("images/clustering100_tf_idf.png",dpi=300,bbox_inches='tight')
 #cluster=fcluster(Z,0.6, depth=3)
 #_ = pl.savefig('images/clusters.png')
 
@@ -115,4 +124,4 @@ for neuron in filmDict:
 
 pl.axis('off')
 
-_ = pl.savefig("images/map50_tfidf_3.png", bbox_inches = 'tight')
+_ = pl.savefig("images/map100_tfidf_1.png", bbox_inches = 'tight')
