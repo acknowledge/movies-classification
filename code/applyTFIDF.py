@@ -70,9 +70,9 @@ if __name__ == '__main__':
     # The TF;IDF algorithm is applied and data is saved in the folder 'data5'
     
 
-    #dataset = [1, 3, 5, 10, 50, 100]#, 3393]
-    dataset = [3393]
-    #dataset = [3]
+    #dataset = [1, 3, 5, 10, 50, 100]#, 500, 3393]
+    #dataset = [3393]
+    dataset = [3]
 
     for n in dataset:
         fname = 'data4/data' + str(n) + '.json'

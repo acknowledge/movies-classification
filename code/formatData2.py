@@ -100,7 +100,7 @@ def saveToFile(titles, words, matrix, fname):
 
 if __name__ == '__main__':
 
-    #dataset = [1, 3, 5, 10, 50, 100]#, 3393]
+    #dataset = [1, 3, 5, 10, 50, 100]#, 500, 3393]
     #dataset = [3393]
     dataset = [10]
 

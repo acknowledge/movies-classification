@@ -58,7 +58,7 @@ def getMovieDescriptions(movieTitles, fname):
         r = requests.get(url)
         movieInfos.append(r.json())
         count = count+1
-        if count >= 50:
+        if count >= 500:
             break
 
     with open(fname, 'wb') as outfile:
@@ -68,8 +68,8 @@ def getMovieDescriptions(movieTitles, fname):
 
 if __name__ == '__main__':
 
-    #movieList = extractMovieList('data1/movielist.txt')
-    #getMovieDescriptions(movieList[0], 'data2/moviedescriptions.json')
+    movieList = extractMovieList('data1/movielist.txt')
+    getMovieDescriptions(movieList[0], 'data2/moviedescriptions500.json')
 
-    movieList = extractMovieListComedyAdventure('data1/movielist.txt')
-    getMovieDescriptions(movieList[0], 'data2/moviedescriptionscomedyadventure50.json')
+    #movieList = extractMovieListComedyAdventure('data1/movielist.txt')
+    #getMovieDescriptions(movieList[0], 'data2/moviedescriptionscomedyadventure50.json')
