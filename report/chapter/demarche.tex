@@ -23,7 +23,7 @@ tfidf, suppression mot unique
 \section{Matrice de distances}
 
 \label{matrice-distance}
-Pour avoir une notion de distance entre les documents on a fait une matrice de distances. Pour faire cela, on a utilisé la librairie "hcluster" \footnote{Hcluster, \url{https://code.google.com/p/scipy-cluster/}} qui prend en entrée une matrice des vecteurs des documents et il permet de définir une matrice de distance : dans notre cas on a utilisé la fonction "cosine".
+Pour avoir une notion de distance entre les documents on a fait une matrice de distances. Pour faire cela, on a utilisé la librairie "hcluster" \footnote{Hcluster, \url{https://code.google.com/p/scipy-cluster/}} qui prend en entrée une matrice des vecteurs des documents et il permet de définir une métrique de distance : dans notre cas on a utilisé la fonction "cosine".
 
 Le code pour la génération de la matrice de distance est le suivante:
 
@@ -37,7 +37,7 @@ Le code pour la génération de la matrice de distance est le suivante:
 %---------------------------------------------------------------------------------------------------------------
 \section{Affichage film plus similaires}
 
-Pour voire si la matrice des vecteurs des documents décrit bien les documents on a fait une fonction qui avec un film en paramètre il retourne les N films las plus similaires de celui-ci.
+Pour voire si la matrice des vecteurs des documents décrit bien les documents on a fait une fonction qui, avec un film en paramètre, il retourne les N films las plus similaires de celui-ci.
 La fonction prend en paramètre, l'id du film initial, le nombre des films similaire à afficher, la matrice de distance décrite dans la section \ref{matrice-distance} ainsi que le vecteur des titres des films.
 Le code de ce fonction est le suivante:
 
@@ -54,7 +54,7 @@ def printClosest(idxFilm, numclosest, distanceMatrix, titles):
 %---------------------------------------------------------------------------------------------------------------
 \section{Clustering Hierarchical}
 
-Une fois avoir évaluée quelques films avec la liste des films similaires pou voulu vérifier mieux  cela en faisan un clastering hiérarchique et en vérifiant que les filme regroupé dans un clastering sont une catégorie similaire.
+Une fois avoir évalué quelques films avec la liste des films similaires on a voulu vérifier mieux cela en faisan un clastering hiérarchique en vérifiant que les filmes regroupé dans un clastering sont une catégorie similaire.
 
 Pour faire cela, on utilise la libraire "hcluster" pour effectuer le clustering hiérarchique en se basant sur la matrice de distances.
 
@@ -88,7 +88,7 @@ La variable Z a été calculée par la fonction de la libraire "hcluter" et on p
 
 Une fois avoir vu les résultats depuis le clustering hiérarchique on peut analyser la matrice initiale avec un algorithme un peu plus avancé et qui donne des résultats plus visuels.
 
-On utilise donc l'algorithme de Khonen qui prend en entrée notre matrice des vecteurs des documents et donne en sortie une map en couleur avec la position de chaque filme par rapport a les autres et avec des couleurs pour représenter la distance entre chaque film. 
+On a utilisé l'algorithme de Khonen qui prend en entrée notre matrice des vecteurs des documents et produise en sortie une map en couleur avec la position de chaque filme par rapport a les autres. Les couleurs de la map représente la distance entre chaque film. 
 
 Pour faire cela, on a utilisé la base du code fait dans le TP 
 4 \footnote{TP Kohonen, HES-SO, \url{http://193.134.218.37/labs/lab4/lab4_assignment.html}}. Dans celui-là  on a modifié la métrique de mesure de la distance et la construction de la matrice initiale : 

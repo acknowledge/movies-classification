@@ -1,8 +1,8 @@
-\chapter{Resultats obtenu}
+\chapter{Résultats obtenu}
 %---------------------------------------------------------------------------------------------------------------
 \section{Liste films similaire}
 
-Les résultats de la liste sont les suivantes:
+Les résultats de la liste des film similaire à "Witness for the Prosecution" sont les suivantes :
 
 \begin{lstlisting}[language=python]
   Witness for the Prosecution:Crime,Drama,Mystery,Thriller :
@@ -28,46 +28,45 @@ Les résultats de la liste sont les suivantes:
   9 Femme Fatale:Crime,Thriller
 \end{lstlisting}
 
-On peut voir que la catégorie du film sélectionné est "	Crime,Drama,Mystery,Thriller" et on voir que le film détecté comme similaire ont des catégories en commun. On peut en déduire que l'algorithme semble reconnaitre assai bien les films similaires même si on sais pas si les catégories attribuées sont virement juste. 
-
+On peut voir que la catégorie du film sélectionné est "Crime,Drama,Mystery,Thriller" et on voit que le film détecté comme similaire ont des catégories en commun. On peut en déduire que l'algorithme semble reconnaitre assai bien les films similaires.
 
 %---------------------------------------------------------------------------------------------------------------
+\newpage
 \section{Clustering hiérarchique}
 
-Les résultats du clustering hiérarchique sont montrés dans l'image ci-dessous :
+	Les résultats du clustering hiérarchique sont montrés dans l'image ci-dessous :
+	\begin{figure}[h]
+	  \centering
+	    \includegraphics[width=0.6\linewidth]{img/clustering50_tf_idf.png}
+	  \caption{Dendogram du clustering hiérarchique}
+	  \label{hierarchical}
+	\end{figure}
+	
+	En faisan un zoom sur limage (figure \ref{zoom}) on peut voire quel film a été groupé et on peut voire sa catégorie. Dans l'image ci-dessous on peut voir comme le film de la même catégorie ont été groupé ensemble.
+		\begin{figure}[h]
+		  \centering
+		    \includegraphics[width=1\linewidth]{img/zoom.png}
+		  \caption{Dendogram du hierachical clustering, zoom}
+		  \label{zoom}
+		\end{figure}
+		\newpage
+	%Pour les films sans catégorie on peut cette fois les imaginer en regardant le groupement que l'algorithme a fait. Pour le film "Bruno" (figure \ref{bruno}) on peut en ne déduire que c'est similaire à "Chaplin" et qui aura une catégorie similaire a "Biography, Drama" ou peut-être il's ont simplement la description du film similaire. Peut-être aussi de ce deux films sont définissent une nouvelle catégorie. En regardant sur IMDB et en recherchant sur Wikipedia on peut voire qu’effectivement le film Bruno est un comédie drôle qui parle du personnage Bruno. On peut donc confirmer qui appartiens aussi à la catégorie "Biographie".
+	%Pour les films sans catégorie on peut cette fois les imaginer en regardant le groupement que l'algorithme a fait. Pour le film "White noise" (figure \ref{whitenoise}) on peut en ne déduire que c'est similaire à "Rounders" et qui aura une catégorie similaire a "Crime, Drama" ou peut-être il's ont simplement la description du film similaire. Peut-être aussi de ce deux films sont définissent une nouvelle catégorie. En regardant sur IMDB et en recherchant sur Wikipedia on peut voire effectivement le film "White noise" est dans les catégories "Drama, Mystery" c'est qui c'est donc vraisemblable avec notre résultats.
+	Dans les clusters crée il y a aussi "Scary Movie" qui est groupé avec "Before the Devil Knows Yo're Dead" (figure \ref{scarymovie})qui ont des catégories complètement différents. Mais, si on regarde le synopsis de deux, on peut voire qu’il y a beaucoup de mot qui sont en commun entre les deux films. Plus précisément les deux films ont les mots "Bobby, Ray, kill" avec une fréquence très haute dans le deux synopsis. Ce qui explique leur similarité. Cela est aussi vraisemblable parce que "Scary movie" est en effet un parodie des films d'horreur et ce pour cela que dans le résumé on trouve beaucoup de mot en commun. 	
+	 
+		\begin{figure}[h]
+			  \centering
+			    \includegraphics[width=0.5\linewidth]{img/scarymovie.png}
+			  \caption{Scary movie et Before the Devil Knows Yo're Dead}
+			  \label{scarymovie}
+			\end{figure}
 
-\begin{figure}[h]
-  \centering
-    \includegraphics[width=0.6\linewidth]{img/clustering50_tf_idf.png}
-  \caption{Dendogram du hierachical clustering}
-  \label{hierarchical}
-\end{figure}
 
-En faisan un zoom sur limage (figure \ref{zoom}) on peut voire quel film a été groupé et on peut voire sa catégorie. Dans l'image ci-dessous on peut voir comme le film de la même catégorie a été groupé ensemble.
-
-\begin{figure}[h]
-  \centering
-    \includegraphics[width=1\linewidth]{img/zoom.png}
-  \caption{Dendogram du hierachical clustering, zoom}
-  \label{zoom}
-\end{figure}
-\newpage
-
-%Pour les films sans catégorie on peut cette fois les imaginer en regardant le groupement que l'algorithme a fait. Pour le film "Bruno" (figure \ref{bruno}) on peut en ne déduire que c'est similaire à "Chaplin" et qui aura une catégorie similaire a "Biography, Drama" ou peut-être il's ont simplement la description du film similaire. Peut-être aussi de ce deux films sont définissent une nouvelle catégorie. En regardant sur IMDB et en recherchant sur Wikipedia on peut voire qu’effectivement le film Bruno est un comédie drôle qui parle du personnage Bruno. On peut donc confirmer qui appartiens aussi à la catégorie "Biographie".
-Pour les films sans catégorie on peut cette fois les imaginer en regardant le groupement que l'algorithme a fait. Pour le film "White noise" (figure \ref{whitenoise}) on peut en ne déduire que c'est similaire à "Rounders" et qui aura une catégorie similaire a "Crime, Drama" ou peut-être il's ont simplement la description du film similaire. Peut-être aussi de ce deux films sont définissent une nouvelle catégorie. En regardant sur IMDB et en recherchant sur Wikipedia on peut voire effectivement le film "White noise" est dans les catégories "Drama, Mystery" c'est qui c'est donc vraisemblable avec notre résultats.
-
- 
-\begin{figure}[h]
-  \centering
-    \includegraphics[width=0.6\linewidth]{img/whitenoise.png}
-  \caption{Dendogram du hierachical clustering, zoom}
-  \label{whitenoise}
-\end{figure}
-
+	
 %---------------------------------------------------------------------------------------------------------------
 \section{Map de Kohonen}
 
-Une fois avoir vu que l'algorithme est capable de reconnaitre les films avec une description similaire on peut utiliser un algorithme plus avancé pour avoir en sortie une map des films placés dans une région de la map. Les couleurs de la map représentent la distance entre chaque film. Rouge indique que la distance est grande et Bleut indique le contraire.
+Une fois avoir vu que l'algorithme est capable de reconnaitre les films avec une description similaire on peut utiliser un algorithme plus avancé pour avoir en sortie une map des films placés dans une région de la map. Les couleurs de la map représentent la distance entre chaque film. Rouge indique que la distance est grande et bleu indique le contraire.
 
 La figure \ref{map1} montre un exemple d'un map généré avec 100 films.
 
@@ -79,24 +78,24 @@ On peut voir depuis l'image
 	\label{map1}
 \end{figure}
 
-On peut voire depuis les couleurs de l'image qui il a de zones délimitées par de rouge, comme l'angle en bas à gauche et de zones délimitées par de vert ou jeune. La division en rouge indique que la division est beaucoup plus forte que celle jeune. Si on agrandit l'image on pourra voir le groupe des films similaire que la map de Kohon a créé.
-Dans l'image \ref{map1zoom2} agrandie on put voire que dans l'angle en bas à gauche on a de groupe délimité par de zones. On peut voire que l'algorithme mis dans l'angle en bas (cercle rouge) les "Bloody Rayan et Alient vs Predator" et on peut aussi voie que la catégorie donnée par IMDB est la même par le deux. On peut en déduire que la description de ce deux est effectivement similaire.
+On peut voire depuis les couleurs de l'image qui il a de zones délimitées par de rouge, comme l'angle en bas à gauche. Il y a aussi des zones délimitées par de vert ou jeune. La division en rouge indique que la division est beaucoup plus forte que celle jeune. Si on agrandit l'image on pourra voir le groupe des films similaire que la map de Kohon a créé.
+Dans l'image agrandi (figure \ref{map1zoom2}) on peut voire queil y a des groupes dans l'angle en bas à gauche. On peut voire que l'algorithme mis dans l'angle en bas (cercle rouge) les "Bloody Rayne" et "Alien vs Predator" avec des categorie en comune. On peut en déduire que la description de ce deux est effectivement similaire.
 
-Dans l'ellipse orange on peut voie un outre groupe résultant depuis la map de Kohonen qui met ensemble le filme d'action, d'aventure et "Drama".
+Dans l'ellipse orange on peut voie un outre groupe résultant depuis la map de Kohonen qui met ensemble le filme d'action, d'aventure et dramatique.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.5\linewidth]{img/map1zoom2.png}
 	\caption{Map de Kohonen avec le zoom de l'angle en bas à gauche}
 	\label{map1zoom2}
 \end{figure}
-\newpage
-Dans l'outre coté de l'image(figure \ref{map1zoom2} ) on peut voire une outre groupe des films. O voit que cette fois on regroupe les films avec les categories "Crime , Drama, Comedy, Biography". Même si les categorie sont legerement differentes on doit pense que la reconnessance est fait sur la description du film et pas sur d'outre parametre plus a haut niveau.
+
+Dans l'outre coté de l'image(figure \ref{map1zoom3} ) on peut voire une outre groupe des films. On voit que cette fois on regroupe les films avec les catégories "Crime , Drama, Comedy, Biography". Même si les catégorie sont légèrement différentes on doit pense que la reconnaissance est fait sur la description du film et pas sur d'autre paramètre plus a haut niveau.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.6\linewidth]{img/map1zoom3.png}
 \caption{Map de Kohonen avec le zoom de l'angle en bas à droite}
-\label{map1zoom2}
+\label{map1zoom3}
 \end{figure}
 
 
