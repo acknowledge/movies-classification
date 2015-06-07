@@ -40,7 +40,7 @@ if __name__ == '__main__':
     # They are filtered and saved in the folder 'data4'
     
 
-    #dataset = [1, 3, 5, 10, 50, 100]#, 3393]
+    #dataset = [1, 3, 5, 10, 50, 100]#, 500, 3393]
     #dataset = [3393]
     dataset = [3]
 
