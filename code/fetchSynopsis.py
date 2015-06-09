@@ -33,7 +33,6 @@ if __name__ == '__main__':
     
     # n --> 1, 3, 5, 10, 50, 100, 3393
     n = 3393
-    dataset = [n]
 
     fname = 'data2/moviedescriptions' + str(n) + '.json'
     movies_data = extractFromFile(fname)

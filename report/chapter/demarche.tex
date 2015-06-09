@@ -1,8 +1,152 @@
 \chapter{Démarche}
 %---------------------------------------------------------------------------------------------------------------
+\section{Liste des films}
+
+Tout d'abord, nous avons trouvé une liste de films qui provient du site \url{IMDb.com}. Elle contient des informations sur 3393 films connus. Cela nous permet d'avoir une liste fixe et de ne pas avoir besoin d'aller les chercher à chaque fois sur internet. Nous avons donc stocké ce fichier que nous utiliserons pas la suite. Ce fichier est formaté de la manière suivante : une ligne correspond à un film, chaque ligne contient 5 informations sur le film :
+
+\begin{itemize}
+ \item Le titre du film
+ \item L'année de sortie du film
+ \item La note qu'à le film sur IMDb
+ \item Le nombre de vote qu'à reçu le film sur IMDb
+ \item Le genre (plusieurs genres séparés par des virgules)
+\end{itemize}
+
+Chacune des ces cinq informations est séparée par deux espaces. Voici un aperçu de cette structure de fichier : \\
+
+\begin{lstlisting}[language=bash]
+  The Pianist﻿  2002﻿  8.5﻿  151864﻿  Biography,Drama,War
+  The Godfather﻿  1972﻿  9.2﻿  450433﻿  Crime,Drama,Thriller
+  Casper﻿  1995﻿  5.7﻿  28316﻿  Comedy,Family,Fantasy
+  Hostel﻿  2005﻿  5.7﻿  69499﻿  Mystery,Thriller
+  Juno﻿  2007﻿  7.8﻿  163142﻿  Comedy,Drama,Romance
+\end{lstlisting}
+
+Cette structure nous permet donc d'extraire facilement les informations voulues avec la fonction Python suivante : \\
+
+\begin{lstlisting}[language=python]
+  def extractMovieList(fname):
+
+      with open(fname) as f:
+          content = f.readlines()
+    
+      title = []
+      year = []
+      grade = []
+      votes = []
+      genre = []
+
+      for line in content:
+          infos = line.split('  ')
+          title.append(infos[0].replace('"',''))
+          year.append(infos[1])
+          grade.append(infos[2])
+          votes.append(infos[3])
+          genre.append(infos[4])
+
+      return [title, year, grade, genre]
+\end{lstlisting}
+
+%---------------------------------------------------------------------------------------------------------------
+\section{Recherche d'information sur un film}
+
+Les données disponibles dans le fichier \texttt{movielist.txt} ne nous permetteront pas de classifier les films. C'est juste une liste qui nous permet d'avoir une quantité de titre de films ainsi que les genres de chaque film. Nous voulons alors rechercher les descriptifs de chaque films. Pour cela, nous utilisons une API\footnote{http://fr.wikipedia.org/wiki/Interface\_de\_programmation} d'IMDb qui est documentée à l'adresse \url{http://omdbapi.com}. Cette API nous permet de chercher des informations sur un film soit en donnant le titre, soit en donnant l'identitiant IMDb du film (ce que nous n'avons pas). 
+
+Nous allons alors prendre la liste de films et faire une requête sur cette API pour chaque titre de film que nous avons. De temps en temps, aucun résultat ne sort, nous passons simplement au suivant. Nous enregistrons alors tous les résultats dans un fichier sous format JSON.\footnote{http://fr.wikipedia.org/wiki/JavaScript\_Object\_Notation} \\
+
+\begin{lstlisting}[language=python]
+  def getMovieDescriptions(movieTitles, fname):
+
+      movieInfos = []
+      base_url = "http://www.omdbapi.com/?plot=full&r=json&t="
+    
+      for title in movieTitles:
+          print 'fetching ' + title
+          url = base_url + title
+          r = requests.get(url)
+          movieInfos.append(r.json())
+
+      with open(fname, 'wb') as outfile:
+          json.dump(movieInfos, outfile)
+\end{lstlisting}
+
+Pour chaque film, nous recevons différentes informations, dont un lien vers une image, le titre, la durée du film, l'année, les acteurs, le pays, la langue, l'identifiant IMDb, un descriptif, etc. Ce qui nous intéresse à première vue est le descriptif. Seulement après avoir analysé ces descriptifs, nous remarquons qu'ils sont souvent courts, ils comportent pour la plupart moins de cinquante mots. Cela est beaucoup trop peu pour pouvoir trouver des ressemblances entres les films et les classifiers. 
+
+Nous avons alors eu l'idée d'utiliser l'identifiant IMDb de chaque films pour aller chercher plus d'informations sur les films. Après quelques recherche, nous trouvons qu'il y a une page spécifique pour chaque film sur le site IMDb où se trouve un résumé plus détaillé du film. L'adresse est formée de la façon suivante : \textit{'http://www.imdb.com/title/[imdbId]/synopsis'}. Il nous reste donc à remplacer l'identifiant que l'on veut dans cette URL et nous arrivons sur un beau descriptif, qu'il faut tout de même extraire de la page web (parser du HTML est toujours une partie de plaisir, quoique).
+
+Un script Python va nous permettre d'aller chercher le descriptif de chaque film et de l'enregistrer cette fois dans un fichier séparé pour chaque film. Voici ce script : \\
+
+\begin{lstlisting}[language=python]
+  import requests
+  import json
+  import BeautifulSoup
+  import re
+  import os.path
+
+  def extractFromFile(fname):
+      file = open(fname, 'r')
+      array =  file.read()
+      data  = json.loads(array)
+    
+      # remove element that doesn't have the Title or imdbID fields
+      data = [item for item in data if 'Title' in item and 'imdbID' in item]
+
+      return data
+
+  def extractSynopsis(imdbId):
+      url = 'http://www.imdb.com/title/' + imdbId + '/synopsis'
+      r = requests.get(url)
+
+      soup = BeautifulSoup.BeautifulSoup(r.text)
+      div = soup.find("div", {"id": "swiki.2.1"})
+      if div :
+          synopsis = re.sub('<[^<]+?>', '', div.text)
+          if synopsis:
+              return synopsis
+
+      return None
+
+  if __name__ == '__main__':
+    
+      # n --> 1, 3, 5, 10, 50, 100, 3393
+      n = 3393
+
+      fname = 'data2/moviedescriptions' + str(n) + '.json'
+      movies_data = extractFromFile(fname)
+
+      i = 0
+      emptyQty = 0
+      for movie in movies_data:
+          i = i + 1
+          imdbId = movie['imdbID']
+          fname = 'data2/synopsis/' + imdbId + '.txt'
+          if not os.path.isfile(fname):
+              print str(i) + '/' + str(n) + ' : ' + imdbId
+              synopsis = extractSynopsis(imdbId)
+              if synopsis:
+                  f = open(fname,"w")
+                  f.write(synopsis.encode('utf8'))
+                  f.close()
+              else:
+                  emptyQty = emptyQty + 1
+                  print imdbId + ' synopsis is empty (' + str(emptyQty) + ')'
+
+      print 'Total empty synopsis : ' + str(emptyQty)
+      print 'Total synopsis : ' + str(n - emptyQty)
+\end{lstlisting}
+
+Tous les films n'avaient pas leur page de descriptif correspondante. Sur les 3393 films initiaux, seuls 2542 ont pu être extrait et enregistré. C'est tout de même assez pour faire nos tests. Nous continuons donc avec cela.
+
+%---------------------------------------------------------------------------------------------------------------
 \section{Création du dataset}
 
-asdf
+Nous avons maintenant tout en main, et en local, pour pouvoir générer les structures de données spécifiques. Nous avons besoin de trois structures différentes :
+
+\begin{itemize}
+ \item Un vecteur contenant la liste des films
+ \item Un vecteur contenant la liste des mots qui apparaîssent
+\end{itemize}
+
 
 
 
