@@ -23,11 +23,10 @@ tfidf, suppression mot unique
 \section{Matrice de distances}
 
 \label{matrice-distance}
-Pour avoir une notion de distance entre les documents on a fait une matrice de distances. Pour faire cela, on a utilisé la librairie "hcluster" \footnote{Hcluster, \url{https://code.google.com/p/scipy-cluster/}} qui prend en entrée une matrice des vecteurs des documents et il permet de définir une métrique de distance : dans notre cas on a utilisé la fonction "cosine".
+Pour avoir une notion de distance entre les documents nous avons créé une matrice des distances. Pour faire cela, on a utilisé la librairie "hcluster" \footnote{Hcluster, \url{https://code.google.com/p/scipy-cluster/}} qui prend en entrée une matrice de vecteurs des documents et elle permet de définir une métrique de distance : dans notre cas on a utilisé la fonction "cosine".
 
-Le code pour la génération de la matrice de distance est le suivante:
+Le code pour la génération de la matrice de distance est le suivant : \\
 
-% Code integration example
 \begin{lstlisting}[language=python]
   titles, words, matrix = extractArrays(infos)
   distanceMatrix =pairwise_distances(matrix, metric='cosine')
@@ -35,11 +34,13 @@ Le code pour la génération de la matrice de distance est le suivante:
 
 
 %---------------------------------------------------------------------------------------------------------------
-\section{Affichage film plus similaires}
+\section{Liste des films similaires}
 
-Pour voire si la matrice des vecteurs des documents décrit bien les documents on a fait une fonction qui, avec un film en paramètre, il retourne les N films las plus similaires de celui-ci.
-La fonction prend en paramètre, l'id du film initial, le nombre des films similaire à afficher, la matrice de distance décrite dans la section \ref{matrice-distance} ainsi que le vecteur des titres des films.
-Le code de ce fonction est le suivante:
+Pour voir si la matrice des vecteurs des documents décrit bien les documents nous avons implémenté une fonction qui, avec un film en paramètre, retourne les N films las plus similaires à celui-ci.
+
+La fonction prend en paramètre l'id du film initial, le nombre des films similaires à afficher, la matrice de distance décrite dans la section \ref{matrice-distance} ainsi que le vecteur des titres des films.
+
+Le code de cette fonction est le suivant : \\
 
 \begin{lstlisting}[language=python]
 def printClosest(idxFilm, numclosest, distanceMatrix, titles):
@@ -47,18 +48,17 @@ def printClosest(idxFilm, numclosest, distanceMatrix, titles):
   cloasest= heapq.nsmallest(numclosest,range(len(distanceMatrix[idxFilm])),distanceMatrix[idxFilm].take)
   for idx, val in enumerate(cloasest):
       print  "\t"+str(idx)+" "+titles[val]
-  
 \end{lstlisting}
 
 
 %---------------------------------------------------------------------------------------------------------------
-\section{Clustering Hierarchical}
+\section{Clustering hiérarchique}
 
 Une fois avoir évalué quelques films avec la liste des films similaires on a voulu vérifier mieux cela en faisan un clastering hiérarchique en vérifiant que les filmes regroupé dans un clastering sont une catégorie similaire.
 
 Pour faire cela, on utilise la libraire "hcluster" pour effectuer le clustering hiérarchique en se basant sur la matrice de distances.
 
-Le clustering hiérarchique sera visualisé dans un dendogram représentant les regroupements des films.
+Le clustering hiérarchique sera visualisé dans un dendrogram représentant les regroupements des films. \\
 
 \begin{lstlisting}[language=python]
 Z=linkage(distanceMatrix,method='average')#,method='centroid')
@@ -70,7 +70,7 @@ pylab.savefig("images/clustering100_tf_idf.png",dpi=300,bbox_inches='tight')
 
 Pour nous aider à la visualisation du graphique on a utilisé une fonction utilitaire pour visionner les films les plus similaires que sont regroupé par l'algorithme de clustering.
 
-Pour faire cela on a fait la fonction suivante:
+Pour faire cela on a fait la fonction suivante : \\
 
 \begin{lstlisting}[language=python]
 print "first closest cluster"
@@ -91,7 +91,7 @@ Une fois avoir vu les résultats depuis le clustering hiérarchique on peut anal
 On a utilisé l'algorithme de Khonen qui prend en entrée notre matrice des vecteurs des documents et produise en sortie une map en couleur avec la position de chaque filme par rapport a les autres. Les couleurs de la map représente la distance entre chaque film. 
 
 Pour faire cela, on a utilisé la base du code fait dans le TP 
-4 \footnote{TP Kohonen, HES-SO, \url{http://193.134.218.37/labs/lab4/lab4_assignment.html}}. Dans celui-là  on a modifié la métrique de mesure de la distance et la construction de la matrice initiale : 
+4 \footnote{TP Kohonen, HES-SO, \url{http://193.134.218.37/labs/lab4/lab4_assignment.html}}. Dans celui-là  on a modifié la métrique de mesure de la distance et la construction de la matrice initiale : \\
 
 \begin{lstlisting}[language=python]
 # define cosine metric for configure distance metrix on kohonen
