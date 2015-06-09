@@ -1,6 +1,17 @@
 \chapter{Introduction}
 
---C'est quoi?
---objectif
---quel est l'utilité
---sur quelles données
+\section{Contexte}
+
+Ce projet s'insère dans le cadre du cours ``Machine Learning on Big Data'' (ou MLBD) du Master HES-SO. Durant ce cours, plusieurs techniques de machine learning ont été enseignées dans le but de donner une idées de ce qui se fait dans l'industrie dans ce domaine. \\
+
+Le ``machine learning'' ou ``apprentissage automatique'', un des champs d'étude de l'intelligence artificielle, est la discipline scientifique concernée par le développement, l'analyse et l'implémentation de méthodes automatisables qui permettent à une machine (au sens large) d'évoluer grâce à un processus d'apprentissage, et ainsi de remplir des tâches qu'il est difficile ou impossible de remplir par des moyens algorithmiques plus classiques.\footnote{http://fr.wikipedia.org/wiki/Apprentissage\_automatique} \\
+
+
+Le but de ce projet est de classifier des films grâce à leur synopsis. Pour ce faire, nous utiliserons la technique dite des cartes auto organistarices. En anglais, cette technique est connue sous le nom de self organizing maps (SOM).\footnote{http://fr.wikipedia.org/wiki/Carte\_auto\_adaptative} On la connaît aussi sous le nom de cartes de Kohonen. Il s'agit de méthodes d'apprentissage non-supervisées\footnote{http://fr.wikipedia.org/wiki/Apprentissage\_non\_supervis\%C3\%A9} basées sur des réseaux de neurones artificiels. Un apprentissage non-supervisé signifie qu'une quantité de données est fournie au système et en sortie nous obtenons un modèle qui groupe les différentes données selon leurs affinités ou leur ressemblances. Cette méthode est utilisée notamment pour faire de la classification, ce qui est exactement notre but ici.
+
+\section{Le projet}
+
+A partir d'une liste de films, nous allons donc chercher sur internet des résumés (ou synopsis) de différents films. Nous allons traiter ces synopsis pour en extraire différentes informations comme les mots présents et leurs occurrences. Grâce à ces informations, nous pourrons contruire une matrice qu'on donnera à notre réseau de neurone pour qu'il nous confectionne une carte auto-organisée qui classifie les différents films.\\
+
+Le but ici est de voir si les classifications que nous créerons sont cohérentes avec les catégories et genres indiqués par les sites comme ImDB. Au fur et à mesure du projet, nous améliorerons les techniques pour avoir des résultats de plus en plus cohérents et pour finir nous donnerons des pistes d'améliorations futures.
+
