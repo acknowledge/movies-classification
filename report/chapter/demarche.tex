@@ -2,7 +2,7 @@
 %---------------------------------------------------------------------------------------------------------------
 \section{Liste des films}
 
-Tout d'abord, nous avons trouvé une liste de films qui provient du site \url{IMDb.com}. Elle contient des informations sur 3393 films connus. Cela nous permet d'avoir une liste fixe et de ne pas avoir besoin d'aller les chercher à chaque fois sur internet. Nous avons donc stocké ce fichier que nous utiliserons pas la suite. Ce fichier est formaté de la manière suivante : une ligne correspond à un film, chaque ligne contient 5 informations sur le film :
+Tout d'abord, nous avons trouvé une liste de films qui provient du site \url{IMDb.com}. Elle contient des informations sur 3393 films connus. Cela nous permet d'avoir une liste fixe et de ne pas avoir besoin d'aller les chercher à chaque fois sur internet. Nous avons donc stocké ce fichier que nous utiliserons par la suite. Ce fichier est formaté de la manière suivante : une ligne correspond à un film, chaque ligne contient 5 informations sur le film : \\
 
 \begin{itemize}
  \item Le titre du film
@@ -12,6 +12,7 @@ Tout d'abord, nous avons trouvé une liste de films qui provient du site \url{IM
  \item Le genre (plusieurs genres séparés par des virgules)
 \end{itemize}
 
+\vspace{0.4cm}
 Chacune des ces cinq informations est séparée par deux espaces. Voici un aperçu de cette structure de fichier : \\
 
 \begin{lstlisting}[language=bash]
@@ -50,9 +51,9 @@ Cette structure nous permet donc d'extraire facilement les informations voulues 
 %---------------------------------------------------------------------------------------------------------------
 \section{Recherche d'information sur un film}
 
-Les données disponibles dans le fichier \texttt{movielist.txt} ne nous permetteront pas de classifier les films. C'est juste une liste qui nous permet d'avoir une quantité de titre de films ainsi que les genres de chaque film. Nous voulons alors rechercher les descriptifs de chaque films. Pour cela, nous utilisons une API\footnote{http://fr.wikipedia.org/wiki/Interface\_de\_programmation} d'IMDb qui est documentée à l'adresse \url{http://omdbapi.com}. Cette API nous permet de chercher des informations sur un film soit en donnant le titre, soit en donnant l'identitiant IMDb du film (ce que nous n'avons pas). 
+Les données disponibles dans le fichier \texttt{movielist.txt} ne nous permetteront pas de classifier les films. C'est juste une liste qui nous permet d'avoir une quantité de titre de films ainsi que les genres de chaque film. Nous voulons alors rechercher les descriptifs de chaque film. Pour cela, nous utilisons une API\footnote{\url{http://fr.wikipedia.org/wiki/Interface\_de\_programmation}} d'IMDb qui est documentée à l'adresse \url{http://omdbapi.com}. Cette API nous permet de chercher des informations sur un film soit en donnant le titre, soit en donnant l'identitiant IMDb du film (ce que nous n'avons pas). 
 
-Nous allons alors prendre la liste de films et faire une requête sur cette API pour chaque titre de film que nous avons. De temps en temps, aucun résultat ne sort, nous passons simplement au suivant. Nous enregistrons alors tous les résultats dans un fichier sous format JSON.\footnote{http://fr.wikipedia.org/wiki/JavaScript\_Object\_Notation} \\
+Nous allons alors prendre la liste de films et faire une requête sur cette API pour chaque titre de film que nous avons. De temps en temps, aucun résultat ne sort, nous passons simplement au suivant. Nous enregistrons alors tous les résultats dans un fichier sous format JSON.\footnote{\url{http://fr.wikipedia.org/wiki/JavaScript\_Object\_Notation}} \\
 
 \begin{lstlisting}[language=python]
   def getMovieDescriptions(movieTitles, fname):
@@ -70,70 +71,13 @@ Nous allons alors prendre la liste de films et faire une requête sur cette API 
           json.dump(movieInfos, outfile)
 \end{lstlisting}
 
-Pour chaque film, nous recevons différentes informations, dont un lien vers une image, le titre, la durée du film, l'année, les acteurs, le pays, la langue, l'identifiant IMDb, un descriptif, etc. Ce qui nous intéresse à première vue est le descriptif. Seulement après avoir analysé ces descriptifs, nous remarquons qu'ils sont souvent courts, ils comportent pour la plupart moins de cinquante mots. Cela est beaucoup trop peu pour pouvoir trouver des ressemblances entres les films et les classifiers. 
+Pour chaque film, nous recevons différentes informations, dont un lien vers une image, le titre, la durée du film, l'année, les acteurs, le pays, la langue, l'identifiant IMDb, un descriptif, etc. Ce qui nous intéresse à première vue est le descriptif. Seulement après avoir analysé ces descriptifs, nous remarquons qu'ils sont souvent courts, ils comportent pour la plupart moins de cinquante mots. Cela est beaucoup trop peu pour pouvoir trouver des ressemblances entres les films et les classifier. 
 
-Nous avons alors eu l'idée d'utiliser l'identifiant IMDb de chaque films pour aller chercher plus d'informations sur les films. Après quelques recherche, nous trouvons qu'il y a une page spécifique pour chaque film sur le site IMDb où se trouve un résumé plus détaillé du film. L'adresse est formée de la façon suivante : \textit{'http://www.imdb.com/title/[imdbId]/synopsis'}. Il nous reste donc à remplacer l'identifiant que l'on veut dans cette URL et nous arrivons sur un beau descriptif, qu'il faut tout de même extraire de la page web (parser du HTML est toujours une partie de plaisir, quoique).
+Nous avons alors eu l'idée d'utiliser l'identifiant IMDb de chaque films pour aller chercher plus d'informations sur les films. Après quelques recherches, nous trouvons qu'il y a une page spécifique pour chaque film sur le site IMDb où se trouve un résumé plus détaillé du film. L'adresse est formée de la façon suivante : \textit{'http://www.imdb.com/title/[imdbId]/synopsis'}. Il nous reste donc à remplacer l'identifiant que l'on veut dans cette URL et nous arrivons sur un beau descriptif, qu'il faut tout de même extraire de la page web (parser du HTML est toujours une partie de plaisir, quoique).
 
 Un script Python va nous permettre d'aller chercher le descriptif de chaque film et de l'enregistrer cette fois dans un fichier séparé pour chaque film. Voici ce script : \\
 
-\begin{lstlisting}[language=python]
-  import requests
-  import json
-  import BeautifulSoup
-  import re
-  import os.path
-
-  def extractFromFile(fname):
-      file = open(fname, 'r')
-      array =  file.read()
-      data  = json.loads(array)
-    
-      # remove element that doesn't have the Title or imdbID fields
-      data = [item for item in data if 'Title' in item and 'imdbID' in item]
-
-      return data
-
-  def extractSynopsis(imdbId):
-      url = 'http://www.imdb.com/title/' + imdbId + '/synopsis'
-      r = requests.get(url)
-
-      soup = BeautifulSoup.BeautifulSoup(r.text)
-      div = soup.find("div", {"id": "swiki.2.1"})
-      if div :
-          synopsis = re.sub('<[^<]+?>', '', div.text)
-          if synopsis:
-              return synopsis
-
-      return None
-
-  if __name__ == '__main__':
-    
-      # n --> 1, 3, 5, 10, 50, 100, 3393
-      n = 3393
-
-      fname = 'data2/moviedescriptions' + str(n) + '.json'
-      movies_data = extractFromFile(fname)
-
-      i = 0
-      emptyQty = 0
-      for movie in movies_data:
-          i = i + 1
-          imdbId = movie['imdbID']
-          fname = 'data2/synopsis/' + imdbId + '.txt'
-          if not os.path.isfile(fname):
-              print str(i) + '/' + str(n) + ' : ' + imdbId
-              synopsis = extractSynopsis(imdbId)
-              if synopsis:
-                  f = open(fname,"w")
-                  f.write(synopsis.encode('utf8'))
-                  f.close()
-              else:
-                  emptyQty = emptyQty + 1
-                  print imdbId + ' synopsis is empty (' + str(emptyQty) + ')'
-
-      print 'Total empty synopsis : ' + str(emptyQty)
-      print 'Total synopsis : ' + str(n - emptyQty)
-\end{lstlisting}
+\lstinputlisting[language=Python]{code/fetchSynopsis.py}
 
 Tous les films n'avaient pas leur page de descriptif correspondante. Sur les 3393 films initiaux, seuls 2542 ont pu être extrait et enregistré. C'est tout de même assez pour faire nos tests. Nous continuons donc avec cela.
 
@@ -143,25 +87,137 @@ Tous les films n'avaient pas leur page de descriptif correspondante. Sur les 339
 Nous avons maintenant tout en main, et en local, pour pouvoir générer les structures de données spécifiques. Nous avons besoin de trois structures différentes :
 
 \begin{itemize}
- \item Un vecteur contenant la liste des films
- \item Un vecteur contenant la liste des mots qui apparaîssent
+ \item un vecteur contenant la liste des films
+ \item un vecteur contenant la liste de tous les mots qui apparaîssent dans les textes de description 
+ \item une matrix contenant le nombre d'occurrence de chaque mot pour chaque film. Chaque ligne correspond à un film et chaque colonne à un mot.
 \end{itemize}
 
+\vspace{0.4cm}
+%\lstinputlisting[language=Python]{code/formatData.py}
+Voici comment la liste des titres de film est générée : \\
 
+\begin{lstlisting}[language=python]
+  def formatTitle(data):
+      print 'Generating title list...'
+      titles = []
+      i = 0;
+      for movie in data:
+          fname = 'data2/synopsis/' + movie['imdbID'] + '.txt'
+          # if synopsis file exists
+          if os.path.isfile(fname):
+              titles.append(movie['Title'])
+              i = i + 1
+      print 'There is ' + str(i) + ' movies.'
+      return titles
+\end{lstlisting}
 
+Il a fallu ensuite générer la liste de tous les mots qui apparaîssent dans les descriptifs de chaque film. Là il fallait faire plusieurs traitement pour enlever la ponctuation et surtout enlever les \textit{``stop words''} (ou \textit{``mots vides''} en français) qui sont les mots qui n'ont pas vraiment de valeur comme les déterminants, les pronoms. Ces mots apparaîssent avec une fréquence contante dans les différents textes et n'ont donc pas de valeur dans la distinction entre les textes. Pour ce faire, nous avons utilisé la librairie python \texttt{nltk}. Nous avons ensuite fait une liste des mots uniques restants. Voici le code correspondant : \\
+
+\begin{lstlisting}[language=python]
+  def formatWords(data):
+      print 'Generating word list...'
+      words = []
+      for movie in data:
+          fname = 'data2/synopsis/' + movie['imdbID'] + '.txt'
+          # if synopsis file exists
+          if os.path.isfile(fname):
+              synopsis = ''
+              with open(fname, 'r') as thefile:
+                  synopsis = thefile.read().replace('\n', '')
+
+              synopsis = synopsis.lower()
+              # clean words
+              word_list = re.findall(r'\w+', synopsis, flags = re.UNICODE | re.LOCALE) 
+              # remove the stopwords
+              word_list = filter(lambda x: x not in stopwords.words('english'), word_list)
+              for word in word_list:
+                  #word = clean(word)
+                  if word not in words:
+                      words.append(word)
+      print 'There is ', len(words), ' words in the list.'
+      return words
+\end{lstlisting}
+
+La partie la plus difficile est de générer la matrice indiquant combien de fois chaque mot apparaît dans chaque texte. Il a fallu optimiser le maximum ce traitement car il prend énormément de temps à l'exécution. Et voici donc comment la matrice est générée : \\
+
+\begin{lstlisting}[language=python]
+  def generateMatrix(data, words):
+      print 'Generating matrix...'
+      matrix = []
+      i = 0
+    
+      for movie in data:
+          i = i + 1
+          fname = 'data2/synopsis/' + movie['imdbID'] + '.txt'
+          # if synopsis file exists
+          if os.path.isfile(fname):
+              print 'movie ' + str(i) + ' on ' + str(len(data))
+              line = []
+              synopsis = ''
+              with open(fname, 'r') as thefile:
+                  synopsis = thefile.read().replace('\n', '')
+
+              synopsis = synopsis.lower()
+              word_list = re.findall(r'\w+', synopsis, flags = re.UNICODE | re.LOCALE) 
+              word_list = filter(lambda x: x not in stopwords.words('english'), word_list)
+              for word in words:
+                  count = 0
+
+                  for w in word_list:
+                      if w == word:
+                          count = count + 1
+                  line.append(count)
+
+              matrix.append(line)
+          else :
+              print 'movie ' + str(i) + ' has no synopsis'
+      print 'Done.'
+      return matrix
+\end{lstlisting}
+
+Avec ces trois matrices, nous pouvons directement faire marcher les Self-Organizing Maps, mais après plusieurs essais, nous nous sommes rendu compte que les résultats n'étaient pas très parlant.
 
 %---------------------------------------------------------------------------------------------------------------
-\section{Création des vecteurs des documents}
+\section{Optimisations}
 
-asdf
+Une première amélioration a été de supprimer les mots qui n'apparaîssent que dans un seul film. En effet, ces mots n'ont pas de valeur (au même titre que les stopwords) car ils ne permettent pas de faire des corrélations entre différents films. Nous avons donc fait un premier traitement qui supprime ces mots. Il a donc fallu supprimer ces mots de la liste des mots, mais étalement supprimer toutes les colonnes de la matrice correspondantes à ces mots. Grâce à la librairie \texttt{Numpy}, ce traitement est assez peu gourmand en nombre de lignes de code. Nous utilisons un masque pour filtrer les résultats. \\
 
+\begin{lstlisting}[language=python]
+  def removeLonelyWords(words, matrix):
 
-%---------------------------------------------------------------------------------------------------------------
-\section{Amélioration des vecteur de documents}
+      word_counts = matrix.sum(axis=0)
+      word_mask = word_counts > 1
 
-tfidf, suppression mot unique
+      # convert words to numpy array
+      words = np.array(words)
 
+      matrix = matrix[:,word_mask]
+      words = words[word_mask]
 
+      return words.tolist(), matrix
+\end{lstlisting}
+
+Les résultats générés avec ces matrices n'était toujours pas suffisant pour classifier de manière optimale les films. Nous avons alors appliqué l'algorithme TF-IDF\footnote{\url{http://fr.wikipedia.org/wiki/TF-IDF}} (\textit{Term Frequency-Inverse Document Frequency}) à la matrice. Cet algorithme permet d'évaluer l'importance d'un mot contenu dans un texte, relativement à une série de textes. Voici les formules correspondantes :
+
+\[idf_i = log\frac{N}{t_j : w_i \in t_j}\]
+\[tfidf_{ij} = tf_{ij} \cdot idf_i\]
+
+Le terme $tf_{ij}$ est la matrice avec la fréquence de mots dans chaque texte que nous avons déjà générée. $N$ est le nombre total de textes. $t_j$ est le nombre de textes où le mot $w_i$ apparaît. $tfidf_{ij}$ est la matrice finale, obtenue avec l'algorithme TF-IDF. Nous allons utiliser cette matrice en remplacement de la précédente pour générer la carte de Kohonen. Voici le code qui permet cette optimisation : \\
+
+\begin{lstlisting}[language=python] 
+ def applyTFIDF(matrix):
+
+      tf = matrix
+      N = matrix.shape[0]
+      matrix_mask = matrix > 0
+      nf = matrix_mask.sum(axis=0)
+      idf = np.log10(nf*(1.0/N))
+      tfidf = tf * idf
+
+      return tfidf
+\end{lstlisting}
+
+Lors de la sauvegarde du fichier contenant les deux vecteurs et la matrice, nous passons d'un fichier de 287.7Mo à un fichier de 581.7Mo, pour les 2542 films. Cela est dû au fait que les valeurs de la matrice sont des nombres à virgules à la place de simples entiers.
 
 %---------------------------------------------------------------------------------------------------------------
 \section{Matrice de distances}
@@ -173,7 +229,7 @@ Le code pour la génération de la matrice de distance est le suivant : \\
 
 \begin{lstlisting}[language=python]
   titles, words, matrix = extractArrays(infos)
-  distanceMatrix =pairwise_distances(matrix, metric='cosine')
+  distanceMatrix = pairwise_distances(matrix, metric='cosine')
 \end{lstlisting}
 
 
@@ -187,11 +243,11 @@ La fonction prend en paramètre l'id du film initial, le nombre des films simila
 Le code de cette fonction est le suivant : \\
 
 \begin{lstlisting}[language=python]
-def printClosest(idxFilm, numclosest, distanceMatrix, titles):
-  print titles[idxFilm]+":"
-  cloasest= heapq.nsmallest(numclosest,range(len(distanceMatrix[idxFilm])),distanceMatrix[idxFilm].take)
-  for idx, val in enumerate(cloasest):
-      print  "\t"+str(idx)+" "+titles[val]
+  def printClosest(idxFilm, numclosest, distanceMatrix, titles):
+    print titles[idxFilm]+":"
+    cloasest= heapq.nsmallest(numclosest,range(len(distanceMatrix[idxFilm])),distanceMatrix[idxFilm].take)
+    for idx, val in enumerate(cloasest):
+        print  "\t"+str(idx)+" "+titles[val]
 \end{lstlisting}
 
 
@@ -205,11 +261,11 @@ Pour faire cela, on utilise la libraire "hcluster" pour effectuer le clustering 
 Le clustering hiérarchique sera visualisé dans un dendrogram représentant les regroupements des films. \\
 
 \begin{lstlisting}[language=python]
-Z=linkage(distanceMatrix,method='average')#,method='centroid')
-print Z.shape
-image=dendrogram(Z,labels=titlesCat, distance_sort='descendent',
+  Z=linkage(distanceMatrix,method='average')#,method='centroid')
+  print Z.shape
+  image=dendrogram(Z,labels=titlesCat, distance_sort='descendent',
          leaf_font_size=2, orientation='left', show_contracted=False)
-pylab.savefig("images/clustering100_tf_idf.png",dpi=300,bbox_inches='tight')	 	  
+  pylab.savefig("images/clustering100_tf_idf.png",dpi=300,bbox_inches='tight')	 	  
 \end{lstlisting}
 
 Pour nous aider à la visualisation du graphique on a utilisé une fonction utilitaire pour visionner les films les plus similaires que sont regroupé par l'algorithme de clustering.
@@ -217,11 +273,11 @@ Pour nous aider à la visualisation du graphique on a utilisé une fonction util
 Pour faire cela on a fait la fonction suivante : \\
 
 \begin{lstlisting}[language=python]
-print "first closest cluster"
-for idx in range(10):
-    lenTitle=len(titles)
-    if (int(Z[idx,0])<lenTitle) & (int(Z[idx,1])<lenTitle):
-        print "itr "+str(idx)+":\n"+titlesCat[int(Z[idx,0])]+" "+titlesCat[int(Z[idx,1])]
+  print "first closest cluster"
+  for idx in range(10):
+      lenTitle=len(titles)
+      if (int(Z[idx,0])<lenTitle) & (int(Z[idx,1])<lenTitle):
+          print "itr "+str(idx)+":\n"+titlesCat[int(Z[idx,0])]+" "+titlesCat[int(Z[idx,1])]
 \end{lstlisting}
 
 La variable Z a été calculée par la fonction de la libraire "hcluter" et on peut voir, à chaque itération, quel film a été mis ensemble avec quelle outre.	
@@ -238,18 +294,18 @@ Pour faire cela, on a utilisé la base du code fait dans le TP
 4 \footnote{TP Kohonen, HES-SO, \url{http://193.134.218.37/labs/lab4/lab4_assignment.html}}. Dans celui-là  on a modifié la métrique de mesure de la distance et la construction de la matrice initiale : \\
 
 \begin{lstlisting}[language=python]
-# define cosine metric for configure distance metrix on kohonen
-def cosine_metric(x, y):
-	#Returns the cosine distance between x and y.
-	nx = np.sqrt(np.sum(x * x, axis=-1))
-	ny = np.sqrt(np.sum(y * y, axis=-1))
-	# the cosine metric returns 1 when the args are equal, 0 when they are
-	# orthogonal, and -1 when they are opposite. we want the opposite effect,
-	# and we want to make sure the results are always nonnegative.
-	return 1 - np.sum(x * y, axis=-1) / nx / ny
+  # define cosine metric for configure distance metrix on kohonen
+  def cosine_metric(x, y):
+      # Returns the cosine distance between x and y.
+      nx = np.sqrt(np.sum(x * x, axis=-1))
+      ny = np.sqrt(np.sum(y * y, axis=-1))
+      # the cosine metric returns 1 when the args are equal, 0 when they are
+      # orthogonal, and -1 when they are opposite. we want the opposite effect,
+      # and we want to make sure the results are always nonnegative.
+      return 1 - np.sum(x * y, axis=-1) / nx / ny
 
-params = kohonen.Parameters(dimension=len(words), shape=(side,side*2), metric=cosine_metric)
-kmap = kohonen.Map(params)
+  params = kohonen.Parameters(dimension=len(words), shape=(side,side*2), metric=cosine_metric)
+  kmap = kohonen.Map(params)
 \end{lstlisting}
 
 

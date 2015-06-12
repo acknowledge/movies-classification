@@ -10,10 +10,8 @@ def extractFromFile(fname):
     file = open(fname, 'r')
     array =  file.read()
     data  = json.loads(array)
-    
     # remove element that doesn't have the Title or imdbID fields
     data = [item for item in data if 'Title' in item and 'imdbID' in item]
-
     return data
 
 def formatTitle(data):
@@ -49,7 +47,6 @@ def formatWords(data):
                 #word = clean(word)
                 if word not in words:
                     words.append(word)
-
     print 'There is ', len(words), ' words in the list.'
     return words
 
@@ -101,34 +98,28 @@ def saveToFile(titles, words, matrix, fname):
 if __name__ == '__main__':
 
     #dataset = [1, 3, 5, 10, 50, 100]#, 500, 3393]
-    #dataset = [3393]
-    dataset = [10]
+    dataset = [3393]
 
     for n in dataset:
         fname = 'data2/moviedescriptions' + str(n) + '.json'
         movies_data = extractFromFile(fname)
 
+        # creation of the array with movies titles
         movies_titles = formatTitle(movies_data)
-        #print movies_titles
         # format : movies = ["asdf", "asdfsadf", ...]
 
+        # creation of the array with all the words
         movies_words = formatWords(movies_data)
-        #for m in movies_words:
-        #    print m
+        # format : words = ["a word", "another word", ...]
 
+        # creation of the matrix (occurrence of words in each movie)
         movies_matrix = generateMatrix(movies_data, movies_words)
-        #matrix = np.array(movies_matrix)
-        # WARNING : the array have to be transpose !!! --> matrix.T
-        #for m in matrix:
-        #    print m
-        #print matrix
-        #print matrix.T
         # format : matrix = np.array([
-                #    [0,0,0,12,2,0],  # valeurs pour le 1er mot
-                #    [0,0,0,12,2,0],  # valeurs pour le 2e mot
+                #    [0,0,0,12,2,0],  # values for the first movie
+                #    [0,0,0,12,2,0],  # values for the second movie
                 #    [0,0,0,12,2,0]
                 #    ])
-                      # valeur pour un film
+                      # values for a word
 
         output_fname = 'data3/data' + str(n) + '.json'
         saveToFile(movies_titles, movies_words, movies_matrix, output_fname)
