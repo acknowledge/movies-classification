@@ -5,14 +5,22 @@ from loadData import  readFile, extractArrays
 import pylab
 ## Function to perform hierarchical clustering on the matrix with titles of films
 def performHierarchicalClusterin(matrix, titlesCat):
+    #compute the distance matrix with "cosine" metric
     distanceMatrix =pairwise_distances(matrix, metric='cosine')
-    Z=linkage(distanceMatrix,method='average')#,method='centroid')
+    #Computer the hierarchical clutering, similaritiy with cluster
+    #is caclulated with the average of element similarities
+    Z=linkage(distanceMatrix,method='average')
+    #Create a dendogram image
     image=dendrogram(Z,labels=titlesCat, distance_sort='descendent',
                      leaf_font_size=2, orientation='left', show_contracted=False)
+    #Save generated dendogram image
     pylab.savefig("images/clusteringImage.png",dpi=300,bbox_inches='tight')
 ## Function to print most similar cluastering of unique films    
 def printMostSimilarCluster(matrix, titlesCat): 
+    #compute the distance matrix with "cosine" metric
     distanceMatrix =pairwise_distances(matrix, metric='cosine')
+    #Computer the hierarchical clutering, similaritiy with cluster
+    #is caclulated with the average of element similarities
     Z=linkage(distanceMatrix,method='average')#,method='centroid')
     print "first closest cluster\n"
     for idx in range(10):

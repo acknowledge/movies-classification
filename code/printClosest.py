@@ -7,9 +7,12 @@ import sys
 #Print "numClosest" closest films to film with id "idxFilm" in relation of the matrix of words tfidf 
 #The similariti it's caculated with the "cosine" metric
 def printClosest(idxFilm, numclosest, matrix, titles):
+    #compute the distance matrix with "cosine" metric
     distanceMatrix =pairwise_distances(matrix, metric='cosine')
     print titles[idxFilm]+":"
+    #Get id of smallest films on the distanceMatrx
     cloasest= heapq.nsmallest(numclosest,range(len(distanceMatrix[idxFilm])),distanceMatrix[idxFilm].take)
+    #print closest films
     for idx, val in enumerate(cloasest):
         print  "\t"+str(idx)+" "+titles[val]
 
