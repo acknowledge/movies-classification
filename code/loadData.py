@@ -14,20 +14,3 @@ def extractArrays(data):
     matrix = np.array(matrix)
 
     return titles, words, matrix
-
-
-#if __name__ == '__main__':
-
-    # THIS CODE LOAD 3 ARRAYS FROM A FILE FROM THE FOLDER 'data3'
-    # The arrays are 'titles', 'words' and 'matrix'
-    # They are used as input for the Self-Organizing Map
-
-#    fname = 'data3/data5-2-100.json'
-
-#    infos = readFile(fname)
-#    titles, words, matrix = extractArrays(infos)
-
- #   print titles
- #   print words
- #   print matrix
-    

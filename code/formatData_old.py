@@ -41,34 +41,6 @@ def formatWords(data):
                 words.append(word)
 
     print 'There is ', len(words), ' words in the list.'
-
-    # filter the words that have to much or not enough occurrences 
-    '''lowQuantity = 0
-    highQuantity = 0
-    for w in words[:]:
-        count = 0
-
-        for movie in data:
-            movie_words = movie['Plot'].split()
-            for word in movie_words:
-                #word = clean(word)
-                if w == word:
-                    count = count + 1
-        #print w, count
-        if count < minOccurrence or count > maxOccurrence:
-            if count < minOccurrence:
-                lowQuantity = lowQuantity + 1
-                #print 'the word is ', w
-            else:
-                highQuantity = highQuantity + 1
-                print 'a lot of : ', w
-            words.remove(w)
-
-
-    print 'Words with less occurrences than ', minOccurrence, ' : ', lowQuantity
-    print 'Words with more occurrences than ', maxOccurrence, ' : ', highQuantity
-    print 'There is ', len(words), ' words in the final list.'
-    '''
     return words
 
 def generateMatrix(data, words):
@@ -120,13 +92,11 @@ if __name__ == '__main__':
                 #    ])
                       # valeur pour un film
 
-
         output = {}
         output['titles'] = movies_titles
         output['words'] = movies_words
         output['matrix'] = movies_matrix
         
         output_fname = 'data3/data' + str(n) + '.json'
-        #output_fname = 'data3/datatest.json'
         with open(output_fname, 'w') as outfile:
             json.dump(output, outfile)

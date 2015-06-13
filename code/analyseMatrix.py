@@ -4,7 +4,6 @@ import matplotlib.pyplot as pl
 from matplotlib import cm
 from loadData import readFile, extractArrays
 
-
 def whatever():
     fname = 'data3/data10.json'
 
@@ -19,17 +18,6 @@ def whatever():
     titles, words, matrix = extractArrays(infos)
 
     print titles
-
-    #words=['d', 's', 'a']
-    #np.histogram(['a','a','s'])
-    '''x = np.array([[1,0],[4,0]])
-    print x.sum(axis=0)
-    print x.sum(axis=1)
-    pl.hist(x.sum(axis=0))
-    pl.show()
-
-    pl.hist(x.sum(axis=1))
-    pl.show()'''
 
     pl.hist(matrix.sum(axis=0), bins=140)
     pl.show()

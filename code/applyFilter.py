@@ -38,7 +38,6 @@ if __name__ == '__main__':
     # THIS CODE LOAD 3 ARRAYS FROM A FILE FROM THE FOLDER 'data3'
     # The arrays are 'titles', 'words' and 'matrix'
     # They are filtered and saved in the folder 'data4'
-    
 
     #dataset = [1, 3, 5, 10, 50, 100]#, 500, 3393]
     #dataset = [3393]
