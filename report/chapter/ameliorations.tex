@@ -1,14 +1,37 @@
 \chapter{Perspectives et améliorations}
 %---------------------------------------------------------------------------------------------------------------
-\section{Description des films sur Wikipedia}
+\section{Optimisations supplémentaire de la matrice}
 
-asdf
+Comme dit dans la partie résultats, il y a des mots qui apparaîssent vraiment souvent dans beaucoup de textes, il faudrait détecter ceux qui sont importants et supprimer les autres. Cela ferait gagner du temps à l'exécution et optimiserait la catégorisation. Il s'agit là de peu de mots, qui apparaîssent vraiment souvent.
 
+Ensuite il y a autre chose qui peut être amélioré. Lors de l'optimisation, nous supprimons tous les mots qui apparaîssent une seule fois dans tous les textes. Il faudrait maintenant également supprimer les mots qui apparaîssent plusieurs fois, mais uniquement dans un texte. En effet, des mots qui sont uniquement dans un seul film ne permettent pas de faire des comparaisons avec les autres films donc ils servent à rien.
 
 %---------------------------------------------------------------------------------------------------------------
-\section{Prendre en compte d'autres informations}
+\section{Prise en compte de plus d'informations relatives aux films}
 
--Titre film, auteur
+Pour améliorer encore la catégorisation, il serait possible d'aller chercher les descriptifs de films sur d'autres sources, telles que Wikipédia par exemple. Avec des textes plus longs pour chaque film, la catégorisation serait certainement meilleure.
+
+En étandant le concept, il pourrait être intéressant d'ajouter à la classification les sous-titres complets des dialogues du film. Dans ce cas, il faudrait certainement appliquer les mêmes traitements sur les mots que ce que nous avons fait jusque là.
+
+Jusque là, la catégorisation est sensée être objective et logique puisqu'elle est basée sur les données du film lui-même. Mais nous pourrions imaginer ajouter à ça une classification émotionnelle des personnes qui ont vu le film en ajoutant à la reconnaissances différentes informations : \\
+
+\begin{itemize}
+ \item les critiques sur le film sur IMDb
+ \item les commentaires sur le film sur Facebook
+ \item les tweets relatifs au film sur Twitter
+ \item les reviews sur le film tirées de différents blogs
+\end{itemize}
+
+\vspace{0.4cm}
+
+Une autre classification qui pourrait être intéressante et de classifier les films en fonction des acteurs. Cela nous montrerai les différents films où plusieurs acteurs jouent en même temps par exemple. Ajouter la date de production du film peut également être intéressant.
+
+%---------------------------------------------------------------------------------------------------------------
+\section{Dynamiser la classification}
+
+Actuellement, nous pouvons entrer le nom d'un film dans une méthode en Python, et les dix films les plus ressemblants sont affichés. Ce système implique que le film soit déjà contenu dans la classification. On pourrait imaginer un système qui, lorsque le nom d'un film est entré, va chercher toutes les informations liées à ce film dynamiquement et refasse la classification pour donner le résultat à l'utilisateur. Cela donnerait un peu de valeur à ce logiciel.
+
+De plus, il faudrait mettre en place un site web permettant de faire les recherches de manière intuitive et avec un beau design pour le mettre en avant.
 
 
 %---------------------------------------------------------------------------------------------------------------
