@@ -4,7 +4,10 @@ from loadData import  readFile, extractArrays
 from sklearn.metrics.pairwise import pairwise_distances
 import sys
 
-def printClosest(idxFilm, numclosest, distanceMatrix, titles):
+#Print "numClosest" closest films to film with id "idxFilm" in relation of the matrix of words tfidf 
+#The similariti it's caculated with the "cosine" metric
+def printClosest(idxFilm, numclosest, matrix, titles):
+    distanceMatrix =pairwise_distances(matrix, metric='cosine')
     print titles[idxFilm]+":"
     cloasest= heapq.nsmallest(numclosest,range(len(distanceMatrix[idxFilm])),distanceMatrix[idxFilm].take)
     for idx, val in enumerate(cloasest):
@@ -15,16 +18,18 @@ if __name__ == '__main__':
     if(len(sys.argv)<2):
         print "Usage: python ./printClosest.py index_film num_closest_film"
     else:
+        #read data of films name, matrix of tfidf of words, and list of words
         fname = 'data5/data50.json'
         infos = readFile(fname)
         titles, words, matrix = extractArrays(infos)
+        #Get category of films
         cat=MovieCategories()
         cat.getCategory(titles[2])
         titlesCat=[None] * len(titles)
         category=[None] * len(titles)
         for idx, val in enumerate(titles):
             titlesCat[idx]=titles[idx]+":"+cat.getCategory(titles[idx])
-            category[idx]=cat.getCategory(titles[idx])
-        distanceMatrix =pairwise_distances(matrix, metric='cosine')
-        printClosest(int(sys.argv[1]),int(sys.argv[2]),distanceMatrix,titlesCat)
+            category[idx]=cat.getCategory(titles[idx]) 
+        #print closest cluster to the film with id on argument 1    
+        printClosest(int(sys.argv[1]),int(sys.argv[2]),matrix,titlesCat)
         
