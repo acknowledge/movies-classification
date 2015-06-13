@@ -1,5 +1,37 @@
 \chapter{Résultats obtenus}
 %---------------------------------------------------------------------------------------------------------------
+\section{Films et mots}
+
+En développant petit à petit nos extractions, nos créations de matrices, nous avons pu analyser certaines choses. Notamment, nous trouvons intéressant de voir combien de mots uniques se retrouvent dans les descrptifs de films en fonction du nombre de films que nous tenons en compte. La figure \ref{wordsmoviefunction} montre un courbe qui arbore une tendence logarithmique. Cela est le cas avec nos mesures, mais il serait intéressant de voir avec encore plus de films pour savoir si cette tendance se vérifie.
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=0.9\linewidth]{img/wordsmoviefunction.png}
+  \caption{Nombre de mots uniques en fonction du nombre de films}
+  \label{wordsmoviefunction}
+\end{figure}
+
+
+%---------------------------------------------------------------------------------------------------------------
+\section{Optimisations}
+
+Comme dit plus haut, la première optimisation a été de supprimer les mots qui ne se trouvent que dans un seul film. Pour le fichier contenant les 2396 films, nous avions 57'987 mots avant l'optimisation et nous nous retrouvons avec 39'404 mots après. Dans l'opération, 18'583 mots ont été supprimés. Nous pouvons le voir dans les histogrammes de la figure \ref{histooccurrence}, tous les mots qui avaient une seule occurrence ont disparus.
+
+\begin{figure}[h!]
+    \centering
+    \begin{tabular}{cc}
+      \includegraphics[width=.5\linewidth]{img/data3-3393-120.png} &
+      \includegraphics[width=.5\linewidth]{img/data4-3393-120.png} \\
+      (a) & (b)\\
+    \end{tabular}
+    \caption{Histogramme du nombre de mots qui ont les mêmes occurrences (a) normal (b) après suppression des mots uniques
+    \label{histooccurrence}}
+\end{figure}
+
+Les histogrammes montrent les occurrences jusqu'à 120. Après vérification, nous avons vu que le mot avec le plus d'occurrences en avait 25'802. Cela est énorme et n'a pas beaucopu de valeur. Il y a deux possibilités : soit il s'agit d'un \textit{stop word}, soit c'est un terme qui est vraiment utilisé souvent et dans beaucoup de films. Dans les deux cas, il serait bien de supprimer ces mots. Nous pourrions filtrer à partir d'un certain nombre d'occurrence pour rendre les résultats plus pertinents. Il faut faire attention à ne pas filtrer les termes important par contre.
+
+
+%---------------------------------------------------------------------------------------------------------------
 \section{Liste des films similaires}
 
 Les résultats de la liste des films similaires à ``Witness for the Prosecution'' sont les suivants : \\
@@ -31,14 +63,13 @@ Les résultats de la liste des films similaires à ``Witness for the Prosecution
 On peut voir que la catégorie du film sélectionné est "Crime,Drama,Mystery,Thriller" et on voit que les films détectés comme similaires ont des catégories en commun. On peut en déduire que l'algorithme semble reconnaître assez bien les films similaires.
 
 %---------------------------------------------------------------------------------------------------------------
-\newpage
 \section{Clustering hiérarchique}
 
 Les résultats du clustering hiérarchique sont montrés à la figure \ref{hierarchical} ci-dessous.
 
 \begin{figure}[h]
   \centering
-    \includegraphics[width=0.6\linewidth]{img/clustering50_tf_idf.png}
+    \includegraphics[width=1\linewidth]{img/clustering50_tf_idf.png}
   \caption{Dendogram du clustering hiérarchique}
   \label{hierarchical}
 \end{figure}
@@ -54,7 +85,7 @@ En faisant un zoom sur l'image (figure \ref{zoom}) on peut voir quel film a ét�
 \newpage
 %Pour les films sans catégorie on peut cette fois les imaginer en regardant le groupement que l'algorithme a fait. Pour le film "Bruno" (figure \ref{bruno}) on peut en ne déduire que c'est similaire à "Chaplin" et qui aura une catégorie similaire a "Biography, Drama" ou peut-être il's ont simplement la description du film similaire. Peut-être aussi de ce deux films sont définissent une nouvelle catégorie. En regardant sur IMDB et en recherchant sur Wikipedia on peut voire qu’effectivement le film Bruno est un comédie drôle qui parle du personnage Bruno. On peut donc confirmer qui appartiens aussi à la catégorie "Biographie".
 %Pour les films sans catégorie on peut cette fois les imaginer en regardant le groupement que l'algorithme a fait. Pour le film "White noise" (figure \ref{whitenoise}) on peut en ne déduire que c'est similaire à "Rounders" et qui aura une catégorie similaire a "Crime, Drama" ou peut-être il's ont simplement la description du film similaire. Peut-être aussi de ce deux films sont définissent une nouvelle catégorie. En regardant sur IMDB et en recherchant sur Wikipedia on peut voire effectivement le film "White noise" est dans les catégories "Drama, Mystery" c'est qui c'est donc vraisemblable avec notre résultats.
-Dans les clusters crée il y a aussi "Scary Movie" qui est groupé avec "Before the Devil Knows You're Dead" (figure \ref{scarymovie}) qui ont des catégories complètement différentes. Mais, si on regarde le synopsis des deux, on peut voir qu’il y a beaucoup de mots qui sont en commun entre les deux films. Plus précisément, les deux films ont les mots "Bobby, Ray, kill" avec une fréquence très haute dans les deux synopsis. Ce qui explique leur similarité. De plus, le film "Scary Movie" est une parodie de film d'horreur, c'est donc la raison pour laquelle on trouve beaucoup de mot en commun dans les deux synopsis.
+Dans les clusters créés il y a aussi "Scary Movie" qui est groupé avec "Before the Devil Knows You're Dead" (figure \ref{scarymovie}) qui ont des catégories complètement différentes. Mais, si on regarde le synopsis des deux, on peut voir qu’il y a beaucoup de mots qui sont en commun entre les deux films. Plus précisément, les deux films ont les mots "Bobby, Ray, kill" avec une fréquence très haute dans les deux synopsis. Ce qui explique leur similarité. De plus, le film "Scary Movie" est une parodie de film d'horreur, c'est donc la raison pour laquelle on trouve beaucoup de mot en commun dans les deux synopsis.
  
 \begin{figure}[h]
   \centering
@@ -68,9 +99,7 @@ Dans les clusters crée il y a aussi "Scary Movie" qui est groupé avec "Before 
 %---------------------------------------------------------------------------------------------------------------
 \section{Map de Kohonen}
 
-Après avoir vu que l'algorithme est capable de reconnaître les films avec une description similaire on peut utiliser un algorithme plus avancé pour avoir en sortie une carte des films. Ces films sont organisés sur la carte en fonction des ressemblances qu'ils ont avec les autres. Les couleurs de la carte représentent la distance entre chaque film. Une couleur rouge indique que la distance est grande et une couleur bleue indique le contraire.
-
-La figure \ref{map1} montre un exemple d'une carte générée avec 100 films.
+Après avoir vu que l'algorithme est capable de reconnaître les films avec une description similaire on peut utiliser un algorithme plus avancé pour avoir en sortie une carte des films. Ces films sont organisés sur la carte en fonction des ressemblances qu'ils ont avec les autres. Les couleurs de la carte représentent la distance entre chaque film. Une couleur rouge indique que la distance est grande et une couleur bleue indique le contraire. La figure \ref{map1} montre un exemple d'une carte générée avec 100 films.
 
 \begin{figure}[h]
   \centering

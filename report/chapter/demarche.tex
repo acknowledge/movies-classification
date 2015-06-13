@@ -79,7 +79,7 @@ Un script Python va nous permettre d'aller chercher le descriptif de chaque film
 
 \lstinputlisting[language=Python]{code/fetchSynopsis.py}
 
-Tous les films n'avaient pas leur page de descriptif correspondante. Sur les 3393 films initiaux, seuls 2542 ont pu être extrait et enregistré. C'est tout de même assez pour faire nos tests. Nous continuons donc avec cela.
+Tous les films n'avaient pas leur page de descriptif correspondante. Sur les 3393 films initiaux, seuls 2396 ont pu être extrait et enregistré. C'est tout de même assez pour faire nos tests. Nous continuons donc avec cela.
 
 %---------------------------------------------------------------------------------------------------------------
 \section{Création du dataset}
@@ -217,7 +217,7 @@ Le terme $tf_{ij}$ est la matrice avec la fréquence de mots dans chaque texte q
       return tfidf
 \end{lstlisting}
 
-Lors de la sauvegarde du fichier contenant les deux vecteurs et la matrice, nous passons d'un fichier de 287.7Mo à un fichier de 581.7Mo, pour les 2542 films. Cela est dû au fait que les valeurs de la matrice sont des nombres à virgules à la place de simples entiers.
+Lors de la sauvegarde du fichier contenant les deux vecteurs et la matrice, nous passons d'un fichier de 287.7Mo à un fichier de 581.7Mo. Il y a au total 39404 mots différents pour 2396 films. Cela est dû au fait que les valeurs de la matrice sont des nombres à virgules à la place de simples entiers.
 
 %---------------------------------------------------------------------------------------------------------------
 \section{Matrice de distances}
