@@ -1,3 +1,15 @@
 \chapter{Conclusion}
-%\section{Conclusion}
-
+Pour effectuer l'analyse des catégories, il a fallu passer par plusieurs étapes:
+\begin{itemize}
+\item Récupérer les descriptions des films
+\item Analyser son contenu
+\item Créer une matrice des caractéristiques en calculant le score "tfidf" sur chaque mot
+\item Créer une matrice de distance avec une distance "cosinus"
+\item Parametriser l'algorithme de reconnaissance
+\item Effectuer le clustering hierarchical ainsi que la carte de khonen pour verifier les resultats de l'analyse\\
+\end{itemize}
+ Les résultats de l'analyse ont été très intéressants. D'abord nous avons pu voire qu’on peut effectivement établir si deux films sont similaires et qui pourrait entre de la même catégorie. Cela était possible seulement une fois avoir récupéré des descriptifs plus longue des films ainsi que avec l'optimisation de l'extraction des caractéristiques en utilisant la méthode "tfidf". Grâce à la création de la matrice de distance entre les films et du clustering hiérarchique, on a pu vérifier que l'algorithme fonctionne correctement. Nous avons démontré cela en faisons un comparatif avec les catégories connues auparavant dans la base de données. Nous avons finalement généré une carte de Kohonen pour avoir une vision plus complète sur l'ensemble de notre dataset et on a pu constater que des groupes des filmes similaire ont été ressortie. 
+ 
+ On a pu voir aussi  que des erreurs et des imprécisions sont encore présentes. La cause prédominante est que l'algorithme se base uniquement sur la description des films et pas sur d'autres informations qui peuvent être intéressantes aussi (voire section \ref{plus-informations} pour plus de détails). 
+ 
+ Dans un point de vue plus personnel on a trouvé ce projet très intéressant pour mettre en pratique la théorie vue au cours, mais aussi pour l'expérience faite avec un cas réellement utilisable basé sur des données trouve en ligne. Nous sommes finalement contents des résultats obtenus même si, avec plus de temps, des améliorations pourraient être très intéressantes à explorer.
