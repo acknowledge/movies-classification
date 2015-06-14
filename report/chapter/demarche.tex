@@ -88,7 +88,7 @@ Nous avons maintenant tout en main, et en local, pour pouvoir générer les stru
 
 \begin{itemize}
  \item un vecteur contenant la liste des films
- \item un vecteur contenant la liste de tous les mots qui apparaîssent dans les textes de description 
+ \item un vecteur contenant la liste de tous les mots qui apparaissent dans les textes de description 
  \item une matrix contenant le nombre d'occurrence de chaque mot pour chaque film. Chaque ligne correspond à un film et chaque colonne à un mot.
 \end{itemize}
 
@@ -111,7 +111,7 @@ Voici comment la liste des titres de film est générée : \\
       return titles
 \end{lstlisting}
 
-Il a fallu ensuite générer la liste de tous les mots qui apparaîssent dans les descriptifs de chaque film. Là il fallait faire plusieurs traitement pour enlever la ponctuation et surtout enlever les \textit{``stop words''} (ou \textit{``mots vides''} en français) qui sont les mots qui n'ont pas vraiment de valeur comme les déterminants, les pronoms. Ces mots apparaîssent avec une fréquence contante dans les différents textes et n'ont donc pas de valeur dans la distinction entre les textes. Pour ce faire, nous avons utilisé la librairie python \texttt{nltk}. Nous avons ensuite fait une liste des mots uniques restants. Voici le code correspondant : \\
+Il a fallu ensuite générer la liste de tous les mots qui apparaissent dans les descriptifs de chaque film. Là il fallait faire plusieurs traitement pour enlever la ponctuation et surtout enlever les \textit{``stop words''} (ou \textit{``mots vides''} en français) qui sont les mots qui n'ont pas vraiment de valeur comme les déterminants, les pronoms. Ces mots apparaissent avec une fréquence contante dans les différents textes et n'ont donc pas de valeur dans la distinction entre les textes. Pour ce faire, nous avons utilisé la librairie python \texttt{nltk}. Nous avons ensuite fait une liste des mots uniques restants. Voici le code correspondant : \\
 
 \begin{lstlisting}[language=python]
   def formatWords(data):
@@ -180,7 +180,7 @@ Avec ces trois matrices, nous pouvons directement faire marcher les Self-Organiz
 %---------------------------------------------------------------------------------------------------------------
 \section{Optimisations}
 
-Une première amélioration a été de supprimer les mots qui n'apparaîssent que dans un seul film. En effet, ces mots n'ont pas de valeur (au même titre que les stopwords) car ils ne permettent pas de faire des corrélations entre différents films. Nous avons donc fait un premier traitement qui supprime ces mots. Il a donc fallu supprimer ces mots de la liste des mots, mais étalement supprimer toutes les colonnes de la matrice correspondantes à ces mots. Grâce à la librairie \texttt{Numpy}, ce traitement est assez peu gourmand en nombre de lignes de code. Nous utilisons un masque pour filtrer les résultats. \\
+Une première amélioration a été de supprimer les mots qui n'apparaissent que dans un seul film. En effet, ces mots n'ont pas de valeur (au même titre que les stopwords) car ils ne permettent pas de faire des corrélations entre différents films. Nous avons donc fait un premier traitement qui supprime ces mots. Il a donc fallu supprimer ces mots de la liste des mots, mais étalement supprimer toutes les colonnes de la matrice correspondantes à ces mots. Grâce à la librairie \texttt{Numpy}, ce traitement est assez peu gourmand en nombre de lignes de code. Nous utilisons un masque pour filtrer les résultats. \\
 
 \begin{lstlisting}[language=python]
   def removeLonelyWords(words, matrix):
